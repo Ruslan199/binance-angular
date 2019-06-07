@@ -1,0 +1,56 @@
+body{
+    text-align: center;
+}
+.form-control{
+    text-align: center;
+    margin-left: 500px;
+    margin-top: 30px;
+}
+
+table {
+   font-family: 'Noto Sans TC', sans-serif;
+   width: 1000px;
+   font-size: 14px;
+   border-spacing: 0;
+   text-align: center;
+   margin:  auto;
+}
+th {
+   padding: 10px 20px 10px 20px;
+   font-family: 'Noto Sans TC', sans-serif;
+   font-weight: normal;
+}
+td {
+    font-family: 'Noto Sans TC', sans-serif;
+    padding: 10px 20px 10px 20px;
+}
+th, td {
+   border-style: solid;
+   border-width: 0 1px 1px 0;
+   
+}
+#color_table_red{
+    color: red;
+}
+#color_table_green{
+    color: green;
+}
+
+div {
+    float: left; /*Задаем обтекание*/
+    line-height: 120px;/*Высота строки +  верт. центрирования текста*/
+    font-size: 22px;
+    color: white;
+    margin-top: 10px;
+    width: 220px; /*Фиксируем ширину блока*/
+    text-align: center; /*Центрируем текст по горизонтали*/
+}
+#id1{
+    width: 200px;
+    height: 100px;
+}
+.gg {
+    text-align: center;
+    font-size: 30px;
+    margin: 40px;
+}

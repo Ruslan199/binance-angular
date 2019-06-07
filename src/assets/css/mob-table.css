@@ -1,0 +1,141 @@
+.main-table-mob {
+    display: none;
+    margin-top: 16px;
+    margin-bottom: 70px;
+}
+
+.block-info-mob {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border: solid 1px #e7ebf1;
+    padding: 20px 15px;
+    border-bottom: none;
+}
+
+.block-info-mob:last-child {
+    border-bottom: solid 1px #e7ebf1;
+}
+
+.name-elem-mob a {
+    font-size: 12px;
+    font-weight: 700;
+    color: #10335a;
+    text-decoration: none;
+	display:block;
+	line-height:18px;
+    margin-left: 32px; 
+}
+
+.row-table-mob {
+    display: flex;
+    justify-content: space-between;
+    align-self: flex-start;
+    margin-bottom: 16px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.row-table-mob:last-child {
+    margin-bottom: 0;
+}
+
+.half-block {
+    width: 50%;
+}  
+
+.half-block:first-child {
+    margin-right: 18px; 
+}
+
+.checkbox-elem-mob {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.row-table-mob .checkbox:not(checked) + .checkbox-label:before {
+    top: 0px;
+}
+
+.label-table-mob {
+    display: block;
+    color: #10335a;
+    margin-bottom: 10px;
+}
+
+.text-table-mob a {
+    color: #6fa9ff;
+}
+
+.text-table-mob {
+    display: block;
+    color: #879cb5;
+}
+.text-table-mob svg {
+    margin-right: 12px;
+}
+
+.red-text {
+    color: #ff4d5b;
+}
+
+.table-elem-out {
+    font-family: Open Sans;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-align:center;
+    padding-bottom: 6px;
+    padding-top: 6px;
+    border-radius: 3px;
+    background-color: #e59d36;
+    display: block;
+    width:42px;
+    height:24px;
+    box-sizing: border-box;
+}
+
+/* textarea-input */
+
+.block-textarea {
+    width: 100%;
+}
+
+.address-copy-textarea {
+    width: 100%;
+    padding-top: 11px;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px dashed #e7ebf1;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #65738b;
+    margin-right: 0;
+    outline: none;
+    transition: all .25s ease;
+    text-align: left;
+    padding-left: 20px;
+    line-height: 20px;
+}
+
+.btn-input-textarea {
+    display: block;
+    width: 100%;
+    border: none;
+    padding: 21px 0;
+    font-family: 'SFProText-Regular';
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.67;
+    text-align: center;
+    color: #ffffff;  
+    text-transform: uppercase;
+    border-radius: 6px;
+    background-color: #2a51e1;
+}
+  
+  

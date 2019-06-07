@@ -1,0 +1,89 @@
+<div class="request" *ngIf="buy == false">
+    <div mat-dialog-content>
+        <p>Выберите нужные входные данные </p>
+    </div>
+    <br>
+    <div class="position">
+      <label class="left">Выберите время</label>
+      <div class="right">
+        <div class="block">
+          <form #myForm="ngForm" novalidate>
+              <my-date-picker [options]="myOptions"
+                          (dateChanged)="onDateChanged($event)"></my-date-picker>
+          </form>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <div class="position">
+      <label class="left">Выберите временной диапазон</label>
+      <div class="right">
+        <select class="example" (change)="setInterval($event.target.value)">
+            <option *ngFor="let interval of intervals" [value]="interval.interval">{{ interval.name }}</option>
+        </select>
+      </div>
+    </div>
+    <br>
+
+    <div class="position">
+        <label class="left">Выберите Криптовалюту</label>
+        <div class="right">
+            <select class="example" (change)="setPair($event.target.value)">
+                <option *ngFor="let pair of pairs" [value]="pair.pair">{{ pair.name }}</option>
+             </select>
+        </div>
+      </div>
+      <br>
+
+    <div class="position">
+      <label class="left">Количество свечей</label>
+      <div class="right">
+        <input (change)="onKey($event)">
+      </div>
+    </div>
+    <br>
+
+    <div class="position">
+      <label class="left">Погрешность</label>
+      <div class="right">
+        <input (change)="onKeyInaccuracy($event)">
+      </div>
+      <label class="left">Пример: 0.0001</label>
+    </div>
+    <br>
+
+    <div class="footer">
+      <div mat-dialog-actions class="footer">
+        <button mat-button (click)="onNoClick()">Закрыть</button>
+        <button mat-button cdkFocusInitial (click)="sendRequest()">Запустить</button>
+      </div>
+    </div>
+</div>
+
+
+
+
+<div class="display_none" *ngIf="buy == true && klines" (change)="setPair()">
+    <div class="footer">
+        <div mat-dialog-actions class="footer">
+          <button mat-button (click)="NoClick()">Назад</button>
+        </div>
+    </div>
+
+  <table>
+      <thead>
+          <tr>
+            <th>Сигнал</th>
+          </tr>
+        </thead>
+
+      <tbody>
+          <tr>
+            <td>
+              <option *ngFor="let kl of klines">{{ kl }}</option>
+            </td>
+          </tr>
+      </tbody>
+  </table>
+</div>

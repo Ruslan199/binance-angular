@@ -23,7 +23,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/main.css",
+              "src/assets/css/mob-table.css",
+              "src/assets/css/normalize.css",
+              "src/assets/css/responsive.css",
+              "src/assets/css/responsive_for_mobile.css"
             ],
             "scripts": []
           },

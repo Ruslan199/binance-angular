@@ -1,0 +1,485 @@
+/* head-nav-mob */
+	
+	.head-nav-mob {
+		height:54px;
+		margin-left:-12px;
+		margin-right:-12px;
+		box-sizing:border-box;
+		display:none;
+	}
+	
+	.head-nav-mob .menu {
+		margin:0;
+		padding: 0;
+		display: flex;
+		flex-wrap: nowrap;
+		white-space:nowrap;
+		overflow-x: auto;
+	}
+	
+	.head-nav-mob .menu_block {
+		font-size: 12px;
+		font-family:'SFProText-Semibold';
+		text-transform: uppercase;
+		color: #bbc6d4;
+		cursor:pointer;
+		height:54px;
+		margin-right: 16px;
+		list-style: none;
+		display:flex;
+		flex-direction:column;
+		justify-content:center;
+	}
+	
+	.head-nav-mob .menu_block:first-child {
+		padding-left:12px;
+	}
+	
+	.head-nav-mob .menu_block:last-child {
+		padding-right:12px;
+	}
+	
+	.head-nav-mob .menu_block:hover{
+		color: #2a51e1;
+	}
+
+	.head-nav-mob .menu_block:active{
+		color: #2a51e1;
+	}
+	
+	.head-nav-mob .menu_block.active{
+		color: #2a51e1;
+	}	
+
+	
+@media screen and (max-width: 1399px) {
+	.content .stats-blocks {
+		height:auto;
+		flex-wrap:wrap;
+	}
+	
+	.content .stats-block {
+		width:25%;
+	}
+	
+	.content .stats-block.double {
+		width:100%;
+	}
+}
+
+@media screen and (max-width: 969px) {
+	
+	.checkbox:not(checked) + .checkbox-label {
+		padding:0;
+	}
+	
+	.content .stats-block {
+		width:50%;
+	}
+	
+	.content .stats-block.double .block-head-double > .block-head:first-child {
+		width:50%;
+	}
+	
+	.content .stats-block.double .block-head-double > .block-head:last-child {
+		width:50%;
+		padding-left:25px;
+	}
+	
+	.content .main-informer.attention .informer-inner-left > .informer-text {
+		padding-left:23px;
+	}
+	
+	.content .main-informer .panel {
+		max-height:134px;
+		height:auto;
+	}
+	
+	.content .main-informer .panel > .panel-body {
+		flex-direction:column;
+		justify-content:flex-start;
+		padding:22px 24px 17px 14px;
+	}
+	
+	.content .main-informer .panel > .panel-body .informer-inner-right {
+		margin-top:6px;
+	}
+	
+	.content .main-informer .informer-text {
+		padding-left:23px;
+	}
+	
+	.main-table {
+		display: none;
+	}
+
+	.main-table-mob {
+		display: block;
+	}
+}
+	
+@media screen and (max-width: 599px) {
+	
+	.sidebar {
+		position: fixed;
+		height: 55px;
+		bottom: 0;
+		z-index: 1100;
+		display: flex;
+		align-items: center;
+	}
+
+	.sidebar .sidebar-nav {
+		padding: 25px 0;
+		width: 100%;
+	}
+
+	.sidebar .sidebar-nav nav > ul {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-right: 25px;
+	}
+
+	.sidebar .sidebar-nav li {
+		width: 59px;
+		height: 55px;
+	}
+
+	.sidebar .sidebar-nav li:nth-child(3) {
+		display: none;
+	}
+
+	.sidebar .sidebar-nav nav > ul > li > a {
+		height: 55px;
+	}	
+
+	/* head-nav-mob */
+	
+	.head-nav-mob {
+		display:block;
+	}
+
+	.content {
+		padding-left: 12px;
+		padding-top: 0;
+		padding-right: 12px;
+		margin-left: 0;
+	}
+	
+	.content .stats-block {
+		width:100%;
+	}
+
+	.content .stats-block .block-head .head-icon {
+		padding-right: 22px;
+		
+	}
+
+	.content .stats-block .block-head:last-child .head-icon {
+		display: none;
+	}
+
+	.stats-block {
+		display: none;
+	}
+
+	.stats-block:last-child {
+		display: block;
+		width: 100%;
+	}
+
+	.content .stats-block.double {
+		width: 100%;
+	}
+
+	.content .stats-block.double .block-head-double > .block-head:first-child {
+		/* border-right: 1px solid #131726; */
+		border-right:0;
+		padding-right: 0px;
+	}
+	
+	.content .stats-block.double .block-head-double > .block-head:first-child {
+		width:60%;
+	}
+	
+	.content .stats-block.double .block-head-double > .block-head:last-child {
+		width:40%;
+		padding-left:25px;
+	}
+
+	.content .stats-block:last-child .block-head {
+		border-right: 0;
+		/* padding-left: 32px; */
+		padding-right: 0;
+	}
+
+	.content .stats-block .block-content.double .content-head-double {
+		display: block;
+	}
+
+	.content .stats-block .block-content.double .content-head-double .content-head {
+		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
+		border-right: 0;
+	}
+	
+	.content .main-informer {
+		margin-top:12px;
+	}
+	
+	.content .main-informer .panel > .panel-body {
+		min-height:134px;
+		padding:23px 24px 17px 14px;
+	}
+	
+	.content .main-table-mob {
+		margin-top:12px;
+	}
+
+	.content .main-notification {
+		display: block;
+		padding-left: 12px;
+		padding-right: 12px;
+		padding-bottom: 12px;
+	}
+
+	.content .main-notification .notify-head {
+		padding-bottom: 23px;
+	}
+
+	.content .main-notification .notify-text {
+		padding-left: 25px;
+	}
+
+	.main table {
+		border-collapse: collapse; 
+	}
+
+	.main-table table tr {
+		display: flex;
+		flex-flow: row;
+		flex-wrap: wrap;
+		border-bottom: 1px solid #e7ebf1; 
+		
+	}
+
+	.main-table table tr td {
+		width: 50%;
+		box-sizing: border-box;
+		text-align: left !important;
+		padding-left: 10px !important;
+		border-bottom: 1px solid #fff !important; 
+	}
+
+	.main-table table tr td:nth-child(3) {
+		width: 100%;
+	}
+
+	.map-container {
+		height: 240px;
+	}
+
+	#map-container {
+		height: 240px !important;
+	}
+
+	/* Xenio Explorer | Account */
+
+	.content .page-header {
+		padding: 23px 25px;
+	}
+
+	/* позже отредактировать */
+	.content .page-header .header-search {
+		display: none; 
+	}
+
+	/* и это тоже отредактировать */
+	.content .page-header-right {
+		display: none;
+	}
+
+	.content .page-header-left .block-head {
+		align-items: center;
+		width: 100%;
+		padding-right: 0px;
+	}
+
+	.content .page-header-left .block-head .head-icon {
+		padding-right: 20px;
+	}
+
+	.content .page-header-left .block-head .head-icon > svg {
+		width: 23px;
+		height: 23px;
+	}
+
+	.content .page-header-left .block-head .head-name {
+		padding-top: 0;
+	}
+
+	.content .page-header-left .block-head .head-name .head-text {
+		font-size: 16px;
+		margin-top: 0;
+	}
+
+	.content .account-table {
+		flex-wrap: wrap;
+		margin-top: 4px;
+	}
+
+	.content .main-notification .notify-head {
+		align-items: flex-start;
+	}
+
+	.content .account-table .table-wrapper.left {
+		padding-bottom: 12px;
+		padding-right: 12px;
+	}
+
+	.content .account-table .table-wrapper.right {
+		padding-left: 0;
+		padding-right: 12px;
+	}
+
+	.content .tabs-container .tabs nav > ul > li:last-child {
+		display: none;
+	}
+
+	.content .main-notification .notify-head img.notify-icon {
+		width: 12px;
+	}
+
+	/* Blockhain */
+
+	.content .blockchain-tabs .transaction-info .tab-body {
+		display: none;
+	}
+
+	.align-svg {
+		display: flex;
+		align-items: center;
+	}
+
+	.align-svg svg {
+		margin-left: 10px; 
+	}
+
+	.content .blockchain-tabs .transaction-info .tab-header > div.text-width {
+		width: 100%;
+	}
+
+	.pagination-area, .btn-tooltip {
+		display: block;
+		padding: 10px 20px;
+		font-size: 9px;
+	}
+
+	.content .main-notification .notify-tooltips ul {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.content .main-notification .notify-tooltips nav > ul > li {
+		margin-bottom: 3px;
+	}
+
+	.content .main-notification .notify-tooltips nav > ul > li:first-child {
+		margin-left: 2px;
+	}
+
+	.content .tooltips-block {
+		margin-top: 13px;
+		margin-bottom: 4px;
+	}
+
+	.content .tooltips-block nav > ul > li {
+		display: block;
+	}
+
+	.btn-tooltip2 {
+		top: 0;
+		display: block;
+		text-align: center;
+		padding-top: 22px;
+		padding-bottom: 21px;
+	}
+	
+	.content .account-table table > thead > tr > th:first-child > svg {
+		width: 17px;
+		height: 16px;
+	}
+
+	.content .account-table table > thead > tr > th:first-child {
+		padding-left: 23px;
+	}
+
+	.header-wallet-table {
+		font-family: 'Open Sans', sans-serif;
+		font-size: 14px;
+		font-weight: bold;
+		text-align: left;
+		color: #10335a;
+	}
+
+	.full-block {
+		width: 100%;
+	}
+
+	.full-block .address-copy {
+		width: 100%;
+		font-size: 12px;
+		text-align: center;
+		color: #131726;
+		margin-top: 6px;
+	}
+
+	.text-table-mob .btn-tooltip2-mob {
+		color: #fff;
+		margin-top: 32px;
+	}
+
+	.text-table-mob .btn-table-mob  {
+		display: block;
+		color: #fff;
+		text-align: center;
+		padding-top: 22px;
+		padding-bottom: 21px;
+		margin-top: 22px;
+	}
+
+	.content .hide-table {
+		display: none;
+	}
+
+	.tabs-content .tab-table-mob {
+		padding-right: 12px;
+	}
+
+
+	/* ---------------------------------17.11------------------------------------ */
+
+	.tab-table-mob, .tab-body-mob {
+		display: block;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

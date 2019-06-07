@@ -1,0 +1,72 @@
+body{
+    text-align: center;
+}
+
+table {
+   font-family: 'Noto Sans TC', sans-serif;
+   width: 1000px;
+   font-size: 14px;
+   border-spacing: 0;
+   text-align: center;
+   margin:  auto;
+}
+th {
+   padding: 10px 20px 10px 20px;
+   font-family: 'Noto Sans TC', sans-serif;
+   font-weight: normal;
+}
+td {
+    font-family: 'Noto Sans TC', sans-serif;
+    padding: 10px 20px 10px 20px;
+}
+th, td {
+   border-style: solid;
+   border-width: 0 1px 1px 0;
+   
+}
+select{
+    margin: 50px;
+  width: 150px;
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+}
+
+ul.hr {
+    margin-top: 120px; /* Обнуляем значение отступов */
+    padding-top: 40px; /* Значение полей */
+}
+ul.hr li {
+    display: inline; /* Отображать как строчный элемент */
+    padding: 3px; /* Поля вокруг текста */
+    font-size: 20px;
+    margin: 40px;
+
+}
+#color_table_red{
+    color: red;
+}
+#color_table_green{
+    color: green;
+}
+.exa{
+    padding-top: 10px;
+    background:#4AB224;
+}
+.example{
+    visibility: visible;
+}
+.right{
+    text-align: center;
+}
+.inp{
+    width: 120px;
+}
+#display_none{
+    display: none;
+}

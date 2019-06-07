@@ -1,0 +1,62 @@
+<div class="block">
+	<select class="example" (change)="setPair($event.target.value)">
+		<option *ngFor="let pair of pairs" [value]="pair.name">{{ pair.name }}</option>
+	</select>
+</div>
+
+<div class="block">
+	<select class="example" (change) = "setInterval($event.target.value)">
+		<option *ngFor="let interval of intervals" [value]="interval.interval">{{ interval.name }}</option>
+	  </select> 
+</div>
+
+<div class="block">
+	<form #myForm="ngForm" novalidate>
+		<my-date-picker [options]="myOptions"
+					(dateChanged)="onDateChanged($event)"></my-date-picker>
+	</form>
+</div>
+
+<div class="block">
+	<form #myForm="ngForm" novalidate>
+		<my-date-picker [options]="myOptions"
+					(dateChanged)="onDateChangedd($event)"></my-date-picker>
+	</form>
+</div>
+
+<div class="block">
+	<form id="id1">
+		<button (click)="sendRequest()">Запрос</button>
+	  </form>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<table border="1" *ngIf="data">
+		<tr>
+				<th>Дата</th>
+				<th>Открытие</th>
+				<th>Максимум</th>
+				<th>Минимум</th>
+				<th>Закрытие</th>
+			</tr>
+
+
+	<tr *ngFor="let ol of data.dataPrice | paginate: { itemsPerPage: 50, currentPage: p }">
+		<td>{{ ol.date | date: 'yyyy/MM/dd HH:mm ' }}</td>
+				<td>{{ ol.open }}</td>
+				<td>{{ ol.maxPrice }}</td>
+				<td>{{ ol.minPrice }} </td>
+				<td>{{ ol.close }} </td>
+	
+	</tr>
+
+</table>
+
+<pagination-controls  *ngIf="showHide==true" class="gg" (pageChange)="p = $event"></pagination-controls>

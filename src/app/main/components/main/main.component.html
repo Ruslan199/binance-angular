@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Meta -->
+	<meta charset="utf8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Title -->
+	<title>Xenio Explorer | Main ver. 2</title>
+
+	<!-- CSS -->
+	
+	
+	<link rel="stylesheet" href="assets/css/normalize.css">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/css/responsive.css">
+
+    
+
+	<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+</head>
+
+<body class="main-page">
+
+	<!-- Sidebar -->
+
+	<!-- Content -->
+	<div class="content">
+
+		<!-- Page header -->
+		<div class="page-header">
+
+			<!-- Left block -->
+			<div class="page-header-left">
+
+				<!-- Block head -->
+				<div class="block-head">
+
+
+					<!-- Head name -->
+					<div class="head-name">
+
+						<!-- Head stat -->
+						<div class="head-text">
+							Trader
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Right block -->
+			<div class="page-header-right">
+
+				<!-- Header nav -->
+				<div class="header-nav">
+					<nav>
+						<ul>
+							<li>
+								<a href="#">
+									Главная
+								</a>
+							</li>
+
+
+							<li>
+								 <button  mat-raised-button (click)="opDialog()">Real Time</button>
+							</li>
+
+							<li>
+								<button mat-raised-button (click)="openDialog()">История</button>
+							</li>
+
+							<li class="dropdown">
+								<a href="#">
+									Пары
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+
+				<!-- Log in button -->
+				<div class="login-block">
+
+					<!-- Login btn -->
+					<div class="login-btn">
+						<a href="#">
+							<svg xmlns="http://www.w3.org/2000/svg" width="14" height="17" viewBox="0 0 18 21">
+								<defs>
+
+								</defs>
+								<path class="cls-4" d="M2755,116.015a4.863,4.863,0,1,1-4.96,4.863A4.912,4.912,0,0,1,2755,116.015Zm0,12.157a8.906,8.906,0,0,0-8.99,8.813h17.98A8.906,8.906,0,0,0,2755,128.172Z"
+								 transform="translate(-2746 -116)" />
+							</svg>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="display_none" style="display:none;">
+			<div class="exa" style="border: 1px solid #000; padding-top: 40px; padding-bottom: 40px;">
+				<ul class="hr">
+						<li>
+								<select class="example" (change)="setPairAlgoritm($event.target.value)">
+										<option *ngFor="let pair of pairs" [value]="pair.pair">{{ pair.name }}</option>
+							   </select>
+						</li>
+						<li>
+								<select id="g3" class="example" (change)="setIntervalAlgoritm($event.target.value)">
+										<option *ngFor="let interval of intervalsAlgoritm" [value]="interval.interval">{{ interval.name }}</option>
+								</select>		
+						</li>
+
+						<li>
+								<input class="inp" (change)="onKeyInaccuracy($event)">
+								<label id="gg2" style="color: white;">Погрешность</label>
+						</li>
+						<li>
+								<button (click)="sendRequest()">Старт</button>				
+						</li>
+						<br>
+						<label id="gg" style="color:white; font-size: 20px; margin-top: 20px;"  *ngIf="show == true"></label>
+				</ul>
+			</div>
+		</div>
+
+
+		<!-- Table -->
+		<div class="main-table">
+
+			<!-- Table Responsive -->
+			<div class="table table-responsive">
+
+   
+		 <div (change) = "LoadSocket($event.target.value)"> 
+				  <select class="example" (change) = "setInterval($event.target.value)">
+					<option *ngFor="let interval of intervals" [value]="interval.interval">{{ interval.name }}</option>
+					</select>
+
+				<table border="1">
+								
+					<thead>
+						<tr>
+							<th>Дата</th>
+							<th>Время</th>
+							<th>Пара</th>
+							<th>Обьём закупа/продажи (Base)</th>
+							<th>Обьём закупа/продажи (Quote)</th>
+							<th>Амплитуда цены (Base)</th>
+                            <th>Процент изменения суточного обьёма</th>
+							<th>Сумма суточного обьёма</th>
+						</tr>
+					</thead>
+
+			
+					<tbody>
+
+						<tr id={{colorTable()}} *ngIf="klineData">
+
+							<td>{{ dataDay() }}</td>
+							<td>{{ dataTime() }}</td>
+
+							<td> 
+								
+								<select class="example" (change)="setPair($event.target.value)">
+										<option *ngFor="let pair of pairs" [value]="pair.name">{{ pair.name }}</option>
+							   </select>
+					
+							</td>
+							
+              <td>{{ MathAbs() }} </td>
+              <td>{{ klineData.k.q }} BTC</td>
+							<td>{{ calculate() }} %</td>
+							<td>{{ dayPercent() }} %</td>
+              <td>{{ dayVolume() }} BTC</td>
+                            
+						</tr>
+					</tbody>
+				</table>
+
+
+			</div>
+		  </div>
+		</div>
+
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/stock/modules/stock.js"></script>
+	<script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+	<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+	<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
+
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/map.js"></script>
+</body>
+
+</html>
+
+
+
+
