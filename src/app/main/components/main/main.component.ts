@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, EventEmitter, Output,Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, EventEmitter, Output } from '@angular/core';
 import { MainService } from '../../services/main.service';
 import { KlineInterval } from 'src/app/common/enum/kline-interval.enum';
 import { Binance24HPricesListResponse } from 'src/app/common/models/response/binance-24hprices-list-response.model';
@@ -10,20 +10,16 @@ import { GetIntervals } from 'src/app/common/models/request/get-intervals.models
 import { Pairs } from 'src/app/common/enum/pairs.enum';
 import { WebsocketResponse } from 'src/app/common/models/response/websocket-response.model';
 import { TwentyFourResponse } from 'src/app/common/models/response/websocket-24hprice-response.model';
-import {MatDialog, MatDialogRef } from '@angular/material';
-import { IMyOptions, IMyDateModel, MyDatePicker } from 'mydatepicker';
+import {MatDialog } from '@angular/material';
 import { GetIntervalsKline } from 'src/app/common/models/request/get-interval-kline.model';
-import { DataOfAlgoritmRequest } from 'src/app/common/models/request/data-algoritm-request.model';
-import { KlineResponse } from 'src/app/common/models/response/kline-response.model';
-import { NumberValueAccessor } from '@angular/forms/src/directives';
-import { trigger } from '@angular/animations';
 import { DataOfRealTimeRequest } from 'src/app/common/models/request/data-realtime-request.model';
-import { templateJitUrl } from '@angular/compiler';
+import { DialogOverviewComponent } from '../dialog_overviews/history/dialog_history.component';
+import { DialogOverviewRegistration } from '../dialog_overviews/registration/dialog_registration.component';
 
 @Component({
   	selector: 'app-main',
-  	templateUrl: './main.component.html',
-  	styleUrls: ['./main.component.css']
+  	templateUrl: 'main.component.html',
+  	styleUrls: ['main.component.css']
 })
 export class MainComponent implements OnInit, AfterViewInit {
 
@@ -115,7 +111,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
 
     openDialog(): void {
-        const dialogRef = this.dialog.open(DialogOverview, {
+        const dialogRef = this.dialog.open(DialogOverviewComponent, {
           width: '450px',
           height: '480px',
         });
@@ -123,6 +119,12 @@ export class MainComponent implements OnInit, AfterViewInit {
         dialogRef.afterClosed().subscribe(result => {
           console.log('The dialog was closed');
         });
+    }
+    openDialogRegistration(): void {
+        const dialogRef = this.dialog.open(DialogOverviewRegistration, {
+            width: '450px',
+            height: '480px',
+          });
     }
     opDialog(): void {
 
@@ -135,6 +137,8 @@ export class MainComponent implements OnInit, AfterViewInit {
             this.visible = true;
         }
     }
+
+
 
     public setInterval(interval: KlineInterval): void
     {
@@ -339,8 +343,6 @@ export class MainComponent implements OnInit, AfterViewInit {
         .subscribe(res => {
             if (!res.success) {
                 console.log(res.message);
-                console.log(1);
-
                 return;
             }
             //this.priceList = res;
@@ -403,132 +405,6 @@ export class MainComponent implements OnInit, AfterViewInit {
         return volume;
     }
 }
-  
-  @Component({
-      templateUrl: './modal.component.html',
-      styleUrls: ['./modal.component.css']
-    })
-  
-  export class DialogOverview {
-
-	//public timestring: string;
-    public time: Date;
-    public klinesCount: number;
-    public inaccuracy: number;
-    public interval: KlineInterval;
-    public pair: Pairs;
-    public inar: number;
-    public value: number;
-    public klines: string;
-    public data: [];
-    public buy: boolean 
-
-    private myOptions: IMyOptions = {
-        dayLabels: {su: "Вс", mo: "Пн", tu: "Вт", we: "Ср", th: "Чт", fr: "Пт", sa: "Сб"},
-        monthLabels: { 1: "Янв", 2: "Фев", 3: "Март", 4: "Апр", 5: "Май", 6: "Июнь", 7: "Июль", 8: "Авг", 9: "Сент", 10: "Окт", 11: "Ноя", 12: "Дек" },
-        dateFormat: "dd.mm.yyyy",
-        todayBtnTxt: "Сегодня",
-        firstDayOfWeek: "mo",
-        sunHighlight: true,
-        inline: false,
-        alignSelectorRight: false,
-		height: "20px",
-        width: "150px",
-    };
-
-    @Output() change = new EventEmitter();
-    @ViewChild('mydp') mydp: MyDatePicker;
-
-    constructor(public dialogRef: MatDialogRef<DialogOverview>, private mainService: MainService)
-    {
-  
-    }
-   
-    onDateChanged(event: IMyDateModel) {
-		//this.timestring = event.formatted;
-		this.time = event.jsdate;
-    }
-    ngOnInit()
-    {
-        this.interval= KlineInterval.FiveMinutes;
-        this.pair = Pairs.GVTBTC;
-        this.buy = false;
-        this.value = 5;
-    }
-
-    
-    intervals: GetIntervalsKline[] = [
-        { name: "5 минут", interval: KlineInterval.FiveMinutes, value: 5 },
-        { name: "15 минут", interval: KlineInterval.FiveteenMinutes, value: 15 },
-        { name: "1 час", interval: KlineInterval.OneHour, value: 60 },
-        { name: "4 часа", interval: KlineInterval.FourHour, value: 240 },
-        { name: "24 часa", interval: KlineInterval.OneDay,value: 1440 }
-    ];
-
-    pairs: GetPair[] = [
-		{ name: "GVTBTC",  pair: Pairs.GVTBTC },
-		{ name: "IOTXBTC", pair:   Pairs.IOTXBTC },
-		{ name: "STRATBTC", pair:  Pairs.STRATBTC },
-		{ name: "XRPBTC", pair:  Pairs.XRPBTC },
-        { name: "WAVESBTC", pair:  Pairs.WAVESBTC },
-		{ name: "CMTBTC", pair:  Pairs.CMTBTC },
-		{ name: "BTCUSDT", pair:  Pairs.BTCUSDT }
-    ];
-
-    public setInterval(interval: KlineInterval): void
-    {
-        this.interval = interval;
-    }
-    public setPair(pair: Pairs): void
-    {
-        this.pair = pair;
-        console.log(pair);
-	}
-    onKey(event: KeyboardEvent) {
-        var klines = (<HTMLInputElement>event.target).value;
-        this.klinesCount = parseInt(klines);
-    }
-
-    onKeyInaccuracy(event: KeyboardEvent) {
-        var inaccuracy = (<HTMLInputElement>event.target).value;
-        this.inaccuracy = parseFloat(inaccuracy);
-        this.inar = this.inaccuracy;
-    }
-    
-    onNoClick(): void {
-       this.dialogRef.close();
-    }
-    NoClick(): void {
-        this.buy = false;
-    }
-
-
-    public sendRequest() {
-        
-        const req = new DataOfAlgoritmRequest();
-
-        req.time = new Date(this.time);
-        console.log(req.time);
-        req.interval = this.interval;
-        req.klinesCount = this.klinesCount;
-        req.inaccuracy = this.inar;
-        req.pair = this.pair;
-        req.value = this.value;
-
-        this.mainService
-        .StartAlgoritm(req)
-			.subscribe(res => {
-				if (!res.success) {
-				console.log(res.message);
-				return;
-            }
-            this.klines = res.klines;       
-            console.log(res);
-            this.buy = true;
-		});
-    }
-    
-  }
 
 export class Filter
 {
@@ -540,3 +416,4 @@ export class Filters
     public pairFilter: Filter = new Filter();
     public intervalFilter: Filter = new Filter();
 }
+  

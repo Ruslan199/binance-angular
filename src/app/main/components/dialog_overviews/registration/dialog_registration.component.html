@@ -1,0 +1,47 @@
+<div class="request" *ngIf="buy == false">
+    <div mat-dialog-content>
+            <p>Регистрация</p>
+    </div>
+    <br>
+   
+    <div class="position">
+      <label class="left">Your Name</label>
+      <div class="right">
+        <input (change)="onName($event)">
+      </div>
+    </div>
+    <br>
+
+    <div class="position">
+      <label class="left">Mail</label>
+      <div class="right">
+        <input type="email" (change)="onMail($event)">
+      </div>
+      <label class="left">Пример: example@mail.ru</label>
+    </div>
+    <br>
+
+    <div class="position">
+        <label class="left">Password</label>
+        <div class="right">
+          <input type="password" (change)="onPassword($event)">
+        </div>
+      </div>
+      <br>
+
+    <div class="position">
+        <label class="left">Confirm Password</label>
+        <div class="right">
+          <input type="password" (change)="onConfirm($event)">
+        </div>
+      </div>
+    <br>
+
+    <div class="footer">
+      <div mat-dialog-actions class="footer">
+        <button mat-button (click)="onNoClick()">Закрыть</button>
+        <button mat-button cdkFocusInitial (click)="sendRequest()">Регистрация</button>
+      </div>
+    </div>
+</div>
+

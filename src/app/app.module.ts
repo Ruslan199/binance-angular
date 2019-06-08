@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
 import { MainService } from './main/services/main.service';
-import { MainComponent, DialogOverview } from './main/components/main/main.component';
+import { DialogOverviewComponent } from './main/components/dialog_overviews/history/dialog_history.component';
 import { BaseHttpService } from './common/services/base-http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { KlinesComponent } from './klines/components/klines.component';
@@ -16,6 +16,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule, MatButtonModule, MatInputModule, MatRippleModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MainComponent } from './main/components/main/main.component';
+import { DialogOverviewRegistration } from './main/components/dialog_overviews/registration/dialog_registration.component';
 
 
 
@@ -24,7 +26,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     MainComponent,
     KlinesComponent,
-    DialogOverview
+    DialogOverviewComponent,
+    DialogOverviewRegistration
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule
   ],
   entryComponents: [
-    DialogOverview
+    DialogOverviewComponent,
+    DialogOverviewRegistration
     ],
   providers: [
     BaseHttpService,
