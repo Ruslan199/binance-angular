@@ -10,6 +10,7 @@ import { DataOfAlgoritmRequest } from "src/app/common/models/request/data-algori
 import { KlineResponse } from "src/app/common/models/response/kline-response.model";
 import { DataOfRealTimeRequest } from "src/app/common/models/request/data-realtime-request.model";
 import { UserRegistrationRequest } from "src/app/common/models/request/user-registration-request.model";
+import { UserSignInRequest } from "src/app/common/models/request/user-signin-request.model";
 
 @Injectable()
 export class MainService extends BaseHttpService {
@@ -54,21 +55,14 @@ export class MainService extends BaseHttpService {
 
     
     public createUser(request: UserRegistrationRequest): Observable<KlineResponse> {
-       
-        /*
-        const url = new URLSearchParams();
-        url.append('pair', request.pair);
-        url.append('interval', request.interval.toString());
-        const options = new RequestOptions();
-        options.search = url;
-         */
-
         return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/user/createUser`, request)
         .map(response => response.json());  
-        //return this.http.get(`${this.apiUrl}/real/RealTime`, options)
-          //  .map(response => response.json());
     }
 
+    public signInUser(request: UserSignInRequest): Observable<KlineResponse> {
+        return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/user/signUser`, request)
+        .map(response => response.json());  
+    }
 
     public StartAlgoritm(request: DataOfAlgoritmRequest): Observable<KlineResponse>{
 

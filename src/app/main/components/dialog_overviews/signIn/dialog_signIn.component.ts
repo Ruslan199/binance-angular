@@ -1,21 +1,19 @@
 import { Component, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
 import { MainService } from '../../../services/main.service';
-import { KlineInterval } from 'src/app/common/enum/kline-interval.enum';
 import 'rxjs/add/operator/takeWhile';
-import { Pairs } from 'src/app/common/enum/pairs.enum';
 import { MatDialogRef } from '@angular/material';
 import {  MyDatePicker } from 'mydatepicker';
-import { UserRegistrationRequest } from 'src/app/common/models/request/user-registration-request.model';
+import { UserSignInRequest } from 'src/app/common/models/request/user-signin-request.model';
+import { WebSocketService } from 'src/app/main/services/websocket.service';
 
 @Component({
     selector: 'app-mainn',
-    templateUrl: 'dialog_registration.component.html',
-    styleUrls: ['dialog_registration.component.css']
+    templateUrl: 'dialog_signIn.component.html',
+    styleUrls: ['dialog_signIn.component.css']
 })
-export class DialogOverviewRegistration implements OnInit{
+export class DialogOverviewSignIn implements OnInit{
 
     public userName: string;
-    public mail: string;
     public password: string;
     public confirmPassword: string;
 
@@ -24,7 +22,7 @@ export class DialogOverviewRegistration implements OnInit{
     @Output() change = new EventEmitter();
     @ViewChild('mydp') mydp: MyDatePicker;
 
-    constructor(public dialogRef: MatDialogRef<DialogOverviewRegistration>, private mainService: MainService)
+    constructor(public dialogRef: MatDialogRef<DialogOverviewSignIn>, private mainService: MainService, private websocket: WebSocketService)
     {
   
     }
@@ -42,34 +40,23 @@ export class DialogOverviewRegistration implements OnInit{
     onName(event: KeyboardEvent) {
         this.userName = (<HTMLInputElement>event.target).value;
     }
-    onMail(event: KeyboardEvent) {
-        this.mail = (<HTMLInputElement>event.target).value;
-    }
     onPassword(event: KeyboardEvent) {
         this.password = (<HTMLInputElement>event.target).value;
     }
-    onConfirm(event: KeyboardEvent) {
-        this.confirmPassword = (<HTMLInputElement>event.target).value;
-    }
     
-
-
     public sendRequest() {
         
-        const req = new UserRegistrationRequest();
-
-        req.mail = this.mail;
+        const req = new UserSignInRequest();
         req.userName = this.userName;
         req.password = this.password;
 
-        if(this.confirmPassword === this.password)
-        {
+        
             this.mainService
-            .createUser(req)
+            .signInUser(req)
                 .subscribe(res => {
                     if (!res.success) {
                     console.log(res.message);
-                    console.log("Произошда какая-то ошибка");
+                    console.log("Произошла какая-то ошибка");
                     return;
                 }
                 else{
@@ -77,10 +64,18 @@ export class DialogOverviewRegistration implements OnInit{
                 }
             });
         }
-        else{
-            console.log("Ошибка пароли не совпадают");
+        public LoadSocket(){
+            this.websocket.openDepthStreamData();
+           
+            this.websocket.depthStreamMessage3
+            .subscribe(message => {
+                if(message == null){
+                    return;
+                 }
+                 //this.twentyFour = JSON.parse(message.data);
+                 console.log(message);
+            });
         }
-    }
-  }
+}
 
   

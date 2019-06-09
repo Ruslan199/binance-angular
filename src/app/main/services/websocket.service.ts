@@ -8,12 +8,16 @@ export class WebSocketService
     //private depthStream2: WebSocket = new WebSocket('wss://stream.binance.com:9443/ws/iotxbtc@depth');
     private depthStream: WebSocket = new WebSocket('wss://stream.binance.com:9443');
     private depthStream2: WebSocket = new WebSocket('wss://stream.binance.com:9443');
+    private depthStreamData: WebSocket = new WebSocket('ws://localhost:5001/notifications');
 
     private _depthStreamMessage: BehaviorSubject<MessageEvent> = new BehaviorSubject<MessageEvent>(null);
     public depthStreamMessage: Observable<MessageEvent> = this._depthStreamMessage.asObservable();
 
     private _depthStreamMessage2: BehaviorSubject<MessageEvent> = new BehaviorSubject<MessageEvent>(null);
     public depthStreamMessage2: Observable<MessageEvent> = this._depthStreamMessage2.asObservable();
+
+    private _depthStreamMessage3: BehaviorSubject<MessageEvent> = new BehaviorSubject<MessageEvent>(null);
+    public depthStreamMessage3: Observable<MessageEvent> = this._depthStreamMessage.asObservable();
 
     public subscriptions: any[]=[];
 
@@ -49,7 +53,19 @@ export class WebSocketService
         };
 
     }
-    public dispose(){ 
-        this.subscriptions.forEach(subscription =>subscription.unsubscribe());
-    }
+
+    public openDepthStreamData(): void{
+
+        this.depthStreamData.close();
+  
+          this.depthStreamData.onopen = () => {
+            this.depthStreamData.onmessage = (msg) => {
+              this._depthStreamMessage3.next(msg);
+          }
+      };
+  
+      }
+      public dispose(){ 
+          this.subscriptions.forEach(subscription =>subscription.unsubscribe());
+      }
 }

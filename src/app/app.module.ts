@@ -18,6 +18,7 @@ import { MatFormFieldModule, MatButtonModule, MatInputModule, MatRippleModule } 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './main/components/main/main.component';
 import { DialogOverviewRegistration } from './main/components/dialog_overviews/registration/dialog_registration.component';
+import { DialogOverviewSignIn } from './main/components/dialog_overviews/signIn/dialog_signIn.component';
 
 
 
@@ -27,7 +28,8 @@ import { DialogOverviewRegistration } from './main/components/dialog_overviews/r
     MainComponent,
     KlinesComponent,
     DialogOverviewComponent,
-    DialogOverviewRegistration
+    DialogOverviewRegistration,
+    DialogOverviewSignIn
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,8 @@ import { DialogOverviewRegistration } from './main/components/dialog_overviews/r
   ],
   entryComponents: [
     DialogOverviewComponent,
-    DialogOverviewRegistration
+    DialogOverviewRegistration,
+    DialogOverviewSignIn
     ],
   providers: [
     BaseHttpService,

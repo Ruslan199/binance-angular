@@ -15,6 +15,7 @@ import { GetIntervalsKline } from 'src/app/common/models/request/get-interval-kl
 import { DataOfRealTimeRequest } from 'src/app/common/models/request/data-realtime-request.model';
 import { DialogOverviewComponent } from '../dialog_overviews/history/dialog_history.component';
 import { DialogOverviewRegistration } from '../dialog_overviews/registration/dialog_registration.component';
+import { DialogOverviewSignIn } from '../dialog_overviews/signIn/dialog_signIn.component';
 
 @Component({
   	selector: 'app-main',
@@ -123,7 +124,13 @@ export class MainComponent implements OnInit, AfterViewInit {
     openDialogRegistration(): void {
         const dialogRef = this.dialog.open(DialogOverviewRegistration, {
             width: '450px',
-            height: '480px',
+            height: '440px',
+          });
+    }
+    openDialogSignIn(): void {
+        const dialogRef = this.dialog.open(DialogOverviewSignIn, {
+            width: '450px',
+            height: '440px',
           });
     }
     opDialog(): void {

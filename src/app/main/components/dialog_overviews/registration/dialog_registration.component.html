@@ -1,6 +1,6 @@
 <div class="request" *ngIf="buy == false">
     <div mat-dialog-content>
-            <p>Регистрация</p>
+            <p style="margin-left: 155px;">Регистрация</p>
     </div>
     <br>
    
@@ -43,5 +43,9 @@
         <button mat-button cdkFocusInitial (click)="sendRequest()">Регистрация</button>
       </div>
     </div>
+</div>
+<div class="request" *ngIf="buy == true">
+  <h1>Вы успешно зарегестрировались</h1>
+  <button mat-button (click)="onNoClick()">Закрыть</button>
 </div>
 

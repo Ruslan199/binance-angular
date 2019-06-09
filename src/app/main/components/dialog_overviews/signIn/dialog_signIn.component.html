@@ -1,0 +1,37 @@
+<div class="request" *ngIf="buy == false">
+        <div mat-dialog-content>
+                <p style="margin-left: 115px;">Войти в качестве пользователя</p>
+        </div>
+        <br>
+       
+        <div class="position">
+          <label class="left">Your Name</label>
+          <div class="right">
+            <input (change)="onName($event)">
+          </div>
+        </div>
+        <br>
+
+    
+        <div class="position">
+            <label class="left">Password</label>
+            <div class="right">
+              <input type="password" (change)="onPassword($event)">
+            </div>
+          </div>
+          <br>
+
+    
+        <div class="footer">
+          <div mat-dialog-actions class="footer">
+            <button mat-button (click)="onNoClick()">Закрыть</button>
+            <button mat-button cdkFocusInitial (click)="sendRequest()">Вход</button>
+          </div>
+        </div>
+    </div>
+    <div class="request" *ngIf="buy == true">
+      <h1>Добро пожаловать,Хозяин</h1>
+      <button mat-button (click)="onNoClick()">Закрыть</button>
+    </div>
+    
+    
