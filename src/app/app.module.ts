@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './main/components/main/main.component';
 import { DialogOverviewRegistration } from './main/components/dialog_overviews/registration/dialog_registration.component';
 import { DialogOverviewSignIn } from './main/components/dialog_overviews/signIn/dialog_signIn.component';
+import { LoginService } from './main/services/login.service';
 
 
 
@@ -56,7 +57,7 @@ import { DialogOverviewSignIn } from './main/components/dialog_overviews/signIn/
     MainService,
     KlineService,
     WebSocketService,
-
+    LoginService
   ],
   bootstrap: [AppComponent]
 })

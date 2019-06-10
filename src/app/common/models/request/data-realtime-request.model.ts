@@ -7,4 +7,5 @@ export class DataOfRealTimeRequest {
     public pair: Pairs;
     public inaccuracy: number;
     public value: number;
+    public login: string;
 }

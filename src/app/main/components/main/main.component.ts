@@ -16,6 +16,7 @@ import { DataOfRealTimeRequest } from 'src/app/common/models/request/data-realti
 import { DialogOverviewComponent } from '../dialog_overviews/history/dialog_history.component';
 import { DialogOverviewRegistration } from '../dialog_overviews/registration/dialog_registration.component';
 import { DialogOverviewSignIn } from '../dialog_overviews/signIn/dialog_signIn.component';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   	selector: 'app-main',
@@ -33,6 +34,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     public visible: boolean;
     public show: boolean;
     public example: boolean;
+    public message: string;
 
     public pairAlgoritm: Pairs;
     public intervalAlgoritm: KlineInterval;
@@ -40,6 +42,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     public inputAlgoritm: number;
     public pairAlgoritmString: string;
     public value: number; 
+    public login: string;
 
     public selectedpair: string[] = [
         "GVTBTC","IOTXBTC","STRATBTC","XRPBTC","WAVESBTC","CMTBTC","BTCUSDT"
@@ -79,9 +82,12 @@ export class MainComponent implements OnInit, AfterViewInit {
     ];
 
     
-    constructor(private mainService: MainService, private websocket: WebSocketService,public dialog: MatDialog)
+    constructor(private mainService: MainService, 
+                private websocket: WebSocketService,
+                public dialog: MatDialog,
+                private loginService: LoginService)
     { 
-
+        this.loginService.currentMessage.subscribe(message=>this.message = message);
     }
     
     ngOnInit()
@@ -344,6 +350,7 @@ export class MainComponent implements OnInit, AfterViewInit {
         req.time = new Date();
         req.inaccuracy = this.inputAlgoritm;
         req.value = this.value;
+        req.login = this.message;
 
         this.mainService
         .getRealTime(req)
@@ -352,7 +359,6 @@ export class MainComponent implements OnInit, AfterViewInit {
                 console.log(res.message);
                 return;
             }
-            //this.priceList = res;
             console.log(res);
         });
     }

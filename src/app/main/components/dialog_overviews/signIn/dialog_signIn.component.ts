@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Output, ViewChild, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, OnInit, Input } from '@angular/core';
 import { MainService } from '../../../services/main.service';
 import 'rxjs/add/operator/takeWhile';
 import { MatDialogRef } from '@angular/material';
 import {  MyDatePicker } from 'mydatepicker';
 import { UserSignInRequest } from 'src/app/common/models/request/user-signin-request.model';
 import { WebSocketService } from 'src/app/main/services/websocket.service';
+import { LoginService } from 'src/app/main/services/login.service';
+
 
 @Component({
     selector: 'app-mainn',
@@ -16,19 +18,31 @@ export class DialogOverviewSignIn implements OnInit{
     public userName: string;
     public password: string;
     public confirmPassword: string;
+    public userLogin: string;
+    public Login: string;
+    public message: string
 
     public buy: boolean 
+    public error: boolean;
 
     @Output() change = new EventEmitter();
     @ViewChild('mydp') mydp: MyDatePicker;
 
-    constructor(public dialogRef: MatDialogRef<DialogOverviewSignIn>, private mainService: MainService, private websocket: WebSocketService)
+    constructor(public dialogRef: MatDialogRef<DialogOverviewSignIn>,
+                private mainService: MainService, 
+                private websocket: WebSocketService,
+                private loginService: LoginService)
     {
-  
+      //this.loginService.currentMessage.subscribe(message=>this.message = message);
     }
     ngOnInit()
     {
         this.buy = false;
+        this.error = false;
+    }
+    newMessage(val:string)
+    {
+       return this.loginService.changeMessage(val);
     }
     
     onNoClick(): void {
@@ -36,6 +50,7 @@ export class DialogOverviewSignIn implements OnInit{
     }
     NoClick(): void {
         this.buy = false;
+        this.error = false;
     }
     onName(event: KeyboardEvent) {
         this.userName = (<HTMLInputElement>event.target).value;
@@ -43,27 +58,36 @@ export class DialogOverviewSignIn implements OnInit{
     onPassword(event: KeyboardEvent) {
         this.password = (<HTMLInputElement>event.target).value;
     }
+    public LoadUser()
+    {
+        let user = this.message;
+        return user;
+    }
     
     public sendRequest() {
         
         const req = new UserSignInRequest();
         req.userName = this.userName;
         req.password = this.password;
-
-        
+      
             this.mainService
             .signInUser(req)
                 .subscribe(res => {
                     if (!res.success) {
                     console.log(res.message);
-                    console.log("Произошла какая-то ошибка");
+                    this.error = true;
                     return;
                 }
                 else{
-                    
+                    this.buy = true;
+                    this.error = false;
+                    this.message = res.message; 
+                    this.newMessage(res.message)
+                      //this.newMessage(res.message);
+                    console.log(this.message);
                 }
             });
-        }
+    }
         public LoadSocket(){
             this.websocket.openDepthStreamData();
            
@@ -72,10 +96,9 @@ export class DialogOverviewSignIn implements OnInit{
                 if(message == null){
                     return;
                  }
-                 //this.twentyFour = JSON.parse(message.data);
-                 console.log(message);
+             console.log(message);
             });
-        }
+    }
 }
 
   

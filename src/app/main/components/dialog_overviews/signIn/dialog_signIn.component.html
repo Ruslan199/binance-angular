@@ -18,9 +18,9 @@
             <div class="right">
               <input type="password" (change)="onPassword($event)">
             </div>
-          </div>
+        </div>
           <br>
-
+  
     
         <div class="footer">
           <div mat-dialog-actions class="footer">
@@ -28,10 +28,13 @@
             <button mat-button cdkFocusInitial (click)="sendRequest()">Вход</button>
           </div>
         </div>
-    </div>
-    <div class="request" *ngIf="buy == true">
-      <h1>Добро пожаловать,Хозяин</h1>
+ </div>
+    <div *ngIf="buy == true">
+      <h1>Добро пожаловать, {{ LoadUser() }}</h1>
       <button mat-button (click)="onNoClick()">Закрыть</button>
     </div>
     
-    
+    <div class="position" *ngIf="error == true">
+            <label class="left">Такого пользователя не существует</label>
+      </div>
+     

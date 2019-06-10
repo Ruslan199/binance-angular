@@ -61,7 +61,7 @@ export class MainService extends BaseHttpService {
 
     public signInUser(request: UserSignInRequest): Observable<KlineResponse> {
         return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/user/signUser`, request)
-        .map(response => response.json());  
+        .map(response => response.json()); 
     }
 
     public StartAlgoritm(request: DataOfAlgoritmRequest): Observable<KlineResponse>{
