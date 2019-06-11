@@ -45,7 +45,7 @@
     </div>
 </div>
 <div class="request" *ngIf="buy == true">
-  <h1>Вы успешно зарегестрировались</h1>
+  <h1>{{ Registration() }}</h1>
   <button mat-button (click)="onNoClick()">Закрыть</button>
 </div>
 

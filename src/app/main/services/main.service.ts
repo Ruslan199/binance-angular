@@ -10,7 +10,9 @@ import { DataOfAlgoritmRequest } from "src/app/common/models/request/data-algori
 import { KlineResponse } from "src/app/common/models/response/kline-response.model";
 import { DataOfRealTimeRequest } from "src/app/common/models/request/data-realtime-request.model";
 import { UserRegistrationRequest } from "src/app/common/models/request/user-registration-request.model";
-import { UserSignInRequest } from "src/app/common/models/request/user-signin-request.model";
+import { AuthRequest } from "src/app/common/models/request/auth-request.model";
+import { AuthResponse } from "src/app/common/models/response/auth-response.model";
+
 
 @Injectable()
 export class MainService extends BaseHttpService {
@@ -49,18 +51,16 @@ export class MainService extends BaseHttpService {
 
         return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/real/RealTime`, request)
         .map(response => response.json());  
-        //return this.http.get(`${this.apiUrl}/real/RealTime`, options)
-          //  .map(response => response.json());
     }
 
     
     public createUser(request: UserRegistrationRequest): Observable<KlineResponse> {
-        return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/user/createUser`, request)
+        return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/user/registration`, request)
         .map(response => response.json());  
     }
 
-    public signInUser(request: UserSignInRequest): Observable<KlineResponse> {
-        return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/user/signUser`, request)
+    public Authorization(request: AuthRequest): Observable<AuthResponse> {
+        return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/user/authorization`, request)
         .map(response => response.json()); 
     }
 

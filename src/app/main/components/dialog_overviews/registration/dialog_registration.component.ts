@@ -52,6 +52,11 @@ export class DialogOverviewRegistration implements OnInit{
         this.confirmPassword = (<HTMLInputElement>event.target).value;
     }
     
+    public Registration(value: string)
+    {
+        let user = value;
+        return user;
+    }
 
 
     public sendRequest() {
@@ -68,12 +73,10 @@ export class DialogOverviewRegistration implements OnInit{
             .createUser(req)
                 .subscribe(res => {
                     if (!res.success) {
-                    console.log(res.message);
-                    console.log("Произошда какая-то ошибка");
                     return;
                 }
                 else{
-                    
+                    this.Registration("Вы успешно зарегестрировались")
                 }
             });
         }

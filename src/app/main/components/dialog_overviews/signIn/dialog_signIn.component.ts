@@ -3,7 +3,7 @@ import { MainService } from '../../../services/main.service';
 import 'rxjs/add/operator/takeWhile';
 import { MatDialogRef } from '@angular/material';
 import {  MyDatePicker } from 'mydatepicker';
-import { UserSignInRequest } from 'src/app/common/models/request/user-signin-request.model';
+import { AuthRequest } from 'src/app/common/models/request/auth-request.model';
 import { WebSocketService } from 'src/app/main/services/websocket.service';
 import { LoginService } from 'src/app/main/services/login.service';
 
@@ -66,12 +66,12 @@ export class DialogOverviewSignIn implements OnInit{
     
     public sendRequest() {
         
-        const req = new UserSignInRequest();
-        req.userName = this.userName;
+        const req = new AuthRequest();
+        req.login = this.userName;
         req.password = this.password;
       
             this.mainService
-            .signInUser(req)
+            .Authorization(req)
                 .subscribe(res => {
                     if (!res.success) {
                     console.log(res.message);
@@ -82,9 +82,9 @@ export class DialogOverviewSignIn implements OnInit{
                     this.buy = true;
                     this.error = false;
                     this.message = res.message; 
-                    this.newMessage(res.message)
-                      //this.newMessage(res.message);
-                    console.log(this.message);
+                    //this.newMessage(res.message);
+                    console.log(res.message);
+                
                 }
             });
     }
