@@ -34,7 +34,10 @@ export class MainComponent implements OnInit, AfterViewInit {
     public visible: boolean;
     public show: boolean;
     public example: boolean;
-    public message: string;
+    public jwt: string;
+    public socketID: string;
+    public log: string;
+    public close: boolean=  false;
 
     public pairAlgoritm: Pairs;
     public intervalAlgoritm: KlineInterval;
@@ -87,7 +90,8 @@ export class MainComponent implements OnInit, AfterViewInit {
                 public dialog: MatDialog,
                 private loginService: LoginService)
     { 
-        this.loginService.currentMessage.subscribe(message=>this.message = message);
+        this.loginService.currentMessage.subscribe(message=>this.jwt = message);
+        this.loginService.currentMessagee.subscribe(message=>this.log = message);
     }
     
     ngOnInit()
@@ -270,6 +274,22 @@ export class MainComponent implements OnInit, AfterViewInit {
              }
              this.twentyFour = JSON.parse(message.data);
         });
+
+        this.websocket.openDepthStreamData();
+        this.websocket.depthStreamMessage3
+        .subscribe(message => {
+            if(message == null){
+               // console.log(message.target)
+                console.log(message);
+             }
+             else{
+                if(this.close != true){
+                    this.socketID = message.data;
+                    this.close = true;
+                }
+                console.log(message.data);
+             }
+        });
     }
     public sendRequest(): void
     {
@@ -350,10 +370,15 @@ export class MainComponent implements OnInit, AfterViewInit {
         req.time = new Date();
         req.inaccuracy = this.inputAlgoritm;
         req.value = this.value;
-        req.login = this.message;
+        req.login = this.log;
+        req.socketId = this.socketID;
 
+        console.log(req.socketId);
+
+        var jwt = this.jwt;
+    
         this.mainService
-        .getRealTime(req)
+        .getRealTime(req,jwt)
         .subscribe(res => {
             if (!res.success) {
                 console.log(res.message);

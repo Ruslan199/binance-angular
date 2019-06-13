@@ -4,7 +4,6 @@ import 'rxjs/add/operator/takeWhile';
 import { MatDialogRef } from '@angular/material';
 import {  MyDatePicker } from 'mydatepicker';
 import { AuthRequest } from 'src/app/common/models/request/auth-request.model';
-import { WebSocketService } from 'src/app/main/services/websocket.service';
 import { LoginService } from 'src/app/main/services/login.service';
 
 
@@ -20,7 +19,8 @@ export class DialogOverviewSignIn implements OnInit{
     public confirmPassword: string;
     public userLogin: string;
     public Login: string;
-    public message: string
+    public jwt: string;
+    public log: string;
 
     public buy: boolean 
     public error: boolean;
@@ -30,10 +30,10 @@ export class DialogOverviewSignIn implements OnInit{
 
     constructor(public dialogRef: MatDialogRef<DialogOverviewSignIn>,
                 private mainService: MainService, 
-                private websocket: WebSocketService,
                 private loginService: LoginService)
     {
-      //this.loginService.currentMessage.subscribe(message=>this.message = message);
+      this.loginService.currentMessage.subscribe(message=>this.jwt = message);
+      this.loginService.currentMessagee.subscribe(message=>this.log = message);
     }
     ngOnInit()
     {
@@ -42,7 +42,11 @@ export class DialogOverviewSignIn implements OnInit{
     }
     newMessage(val:string)
     {
-       return this.loginService.changeMessage(val);
+      this.loginService.changeMessage(val);
+    }
+    newLog(val: string)
+    {
+        this.loginService.changeLog(val);
     }
     
     onNoClick(): void {
@@ -60,8 +64,8 @@ export class DialogOverviewSignIn implements OnInit{
     }
     public LoadUser()
     {
-        let user = this.message;
-        return user;
+        //let user = this.message;
+        //return user;
     }
     
     public sendRequest() {
@@ -79,26 +83,19 @@ export class DialogOverviewSignIn implements OnInit{
                     return;
                 }
                 else{
+
+                    this.newMessage(res.message);
+                    this.newLog(req.login);
                     this.buy = true;
                     this.error = false;
-                    this.message = res.message; 
-                    //this.newMessage(res.message);
-                    console.log(res.message);
-                
+
+                    //this.jwt = res.message;
+                    //this.newMessage(this.jwt)
+                    //console.log(this.jwt);
                 }
             });
     }
-        public LoadSocket(){
-            this.websocket.openDepthStreamData();
-           
-            this.websocket.depthStreamMessage3
-            .subscribe(message => {
-                if(message == null){
-                    return;
-                 }
-             console.log(message);
-            });
-    }
+      
 }
 
   

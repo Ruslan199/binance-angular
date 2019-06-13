@@ -14,7 +14,7 @@ import { UserRegistrationRequest } from 'src/app/common/models/request/user-regi
 })
 export class DialogOverviewRegistration implements OnInit{
 
-    public userName: string;
+    public login: string;
     public mail: string;
     public password: string;
     public confirmPassword: string;
@@ -40,7 +40,7 @@ export class DialogOverviewRegistration implements OnInit{
         this.buy = false;
     }
     onName(event: KeyboardEvent) {
-        this.userName = (<HTMLInputElement>event.target).value;
+        this.login = (<HTMLInputElement>event.target).value;
     }
     onMail(event: KeyboardEvent) {
         this.mail = (<HTMLInputElement>event.target).value;
@@ -64,7 +64,7 @@ export class DialogOverviewRegistration implements OnInit{
         const req = new UserRegistrationRequest();
 
         req.mail = this.mail;
-        req.userName = this.userName;
+        req.login = this.login;
         req.password = this.password;
 
         if(this.confirmPassword === this.password)
@@ -81,7 +81,7 @@ export class DialogOverviewRegistration implements OnInit{
             });
         }
         else{
-            console.log("Ошибка пароли не совпадают");
+           // console.log("Ошибка пароли не совпадают");
         }
     }
   }

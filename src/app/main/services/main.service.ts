@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, URLSearchParams, RequestOptions } from "@angular/http";
+import { Http, URLSearchParams,Headers, RequestOptions } from "@angular/http";
 import { BaseHttpService } from "src/app/common/services/base-http.service";
 import { Observable } from "rxjs";
 import "rxjs/add/operator/map";
@@ -39,17 +39,13 @@ export class MainService extends BaseHttpService {
             .map(response => response.json());
     }
 
-    public getRealTime(request: DataOfRealTimeRequest): Observable<KlineResponse> {
+    public getRealTime(request: DataOfRealTimeRequest, jwt: string): Observable<KlineResponse> {
        
-        /*
-        const url = new URLSearchParams();
-        url.append('pair', request.pair);
-        url.append('interval', request.interval.toString());
-        const options = new RequestOptions();
-        options.search = url;
-         */
-
-        return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/real/RealTime`, request)
+        let header = new Headers({'Content-Type': 'application/json'});  
+        header.append('Authorization','Bearer '+ jwt);
+        let options = new RequestOptions({ headers: header });
+     
+        return this.http.post(`${this.apiUrl}/real/RealTime`, request, options)
         .map(response => response.json());  
     }
 

@@ -8,4 +8,5 @@ export class DataOfRealTimeRequest {
     public inaccuracy: number;
     public value: number;
     public login: string;
+    public socketId: string;
 }
