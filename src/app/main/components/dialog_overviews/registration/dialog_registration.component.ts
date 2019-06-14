@@ -18,6 +18,7 @@ export class DialogOverviewRegistration implements OnInit{
     public mail: string;
     public password: string;
     public confirmPassword: string;
+    public succesRegistration: string;
 
     public buy: boolean 
 
@@ -52,9 +53,9 @@ export class DialogOverviewRegistration implements OnInit{
         this.confirmPassword = (<HTMLInputElement>event.target).value;
     }
     
-    public Registration(value: string)
+    public Registration()
     {
-        let user = value;
+        let user = this.succesRegistration;
         return user;
     }
 
@@ -76,7 +77,8 @@ export class DialogOverviewRegistration implements OnInit{
                     return;
                 }
                 else{
-                    this.Registration("Вы успешно зарегестрировались")
+                    this.buy = true;
+                    this.succesRegistration = res.message;
                 }
             });
         }

@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material';
 import {  MyDatePicker } from 'mydatepicker';
 import { AuthRequest } from 'src/app/common/models/request/auth-request.model';
 import { LoginService } from 'src/app/main/services/login.service';
+import { WebSocketService } from 'src/app/main/services/websocket.service';
 
 
 @Component({
@@ -21,7 +22,10 @@ export class DialogOverviewSignIn implements OnInit{
     public Login: string;
     public jwt: string;
     public log: string;
+    public visiter: string;
+    public errorUser: string;
 
+    public enteredQuestions: boolean;
     public buy: boolean 
     public error: boolean;
 
@@ -30,10 +34,12 @@ export class DialogOverviewSignIn implements OnInit{
 
     constructor(public dialogRef: MatDialogRef<DialogOverviewSignIn>,
                 private mainService: MainService, 
-                private loginService: LoginService)
+                private loginService: LoginService,
+                private websocket: WebSocketService,)
     {
       this.loginService.currentMessage.subscribe(message=>this.jwt = message);
       this.loginService.currentMessagee.subscribe(message=>this.log = message);
+      this.loginService.currentEnter.subscribe(entered=>this.enteredQuestions = entered);
     }
     ngOnInit()
     {
@@ -47,6 +53,10 @@ export class DialogOverviewSignIn implements OnInit{
     newLog(val: string)
     {
         this.loginService.changeLog(val);
+    }
+    Entered(bool: boolean)
+    {
+        this.loginService.Entered(bool);
     }
     
     onNoClick(): void {
@@ -64,10 +74,40 @@ export class DialogOverviewSignIn implements OnInit{
     }
     public LoadUser()
     {
-        //let user = this.message;
-        //return user;
+        let user = this.visiter;
+        return user;
+    }
+    public UnknowUser()
+    {
+        let user = this.errorUser;
+        return user;
     }
     
+/*
+    public LoadSocketMessage()
+    {
+        this.websocket.openDepthStreamData();
+        this.websocket.depthStreamMessage3
+        .subscribe(message => {
+            if(message == null){
+                console.log(message);
+             }
+             else{
+                if(this.close != true){
+                    this.socketID = message.data;
+                    this.close = true;
+                }
+                if(this.workOne != false){
+                this.showSignal = true;
+                this.responseSocket = message.data;
+                this.playAudio();
+                }
+                this.workOne = true;
+             }
+        });
+    }
+    */
+
     public sendRequest() {
         
         const req = new AuthRequest();
@@ -80,18 +120,16 @@ export class DialogOverviewSignIn implements OnInit{
                     if (!res.success) {
                     console.log(res.message);
                     this.error = true;
+                    this.errorUser = res.message;
                     return;
                 }
                 else{
-
                     this.newMessage(res.message);
                     this.newLog(req.login);
+                    this.Entered(true);
                     this.buy = true;
                     this.error = false;
-
-                    //this.jwt = res.message;
-                    //this.newMessage(this.jwt)
-                    //console.log(this.jwt);
+                    this.visiter = res.login;
                 }
             });
     }

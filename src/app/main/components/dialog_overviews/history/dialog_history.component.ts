@@ -107,6 +107,10 @@ export class DialogOverviewComponent implements OnInit{
         this.buy = false;
     }
 
+    getHistory(){
+        document.getElementById('request').style.display = "none";
+    }
+
 
     public sendRequest() {
         
@@ -118,17 +122,18 @@ export class DialogOverviewComponent implements OnInit{
         req.klinesCount = this.klinesCount;
         req.inaccuracy = this.inar;
         req.pair = this.pair;
-        req.value = this.value;
 
         this.mainService
         .StartAlgoritm(req)
 			.subscribe(res => {
 				if (!res.success) {
-				console.log(res.message);
+				console.log(1);
 				return;
             }
-            this.klines = res.klines;       
-            console.log(res);
+
+            this.klines = res.klines;  
+            this.getHistory();     
+            console.log(2);
             this.buy = true;
 		});
     }

@@ -67,9 +67,24 @@ ul.hr li {
 .inp{
     width: 120px;
 }
+#signal{
+    position: absolute;
+    width: 350px;
+    height: 200px;
+    background: white;
+    border: 1px solid;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    left: 35%;
+}
 #display_none{
     display: none;
 }
 #regi  button{
     margin-right: 10px; 
+}
+#exit{
+    display: none; 
 }

@@ -49,6 +49,15 @@ export class MainService extends BaseHttpService {
         .map(response => response.json());  
     }
 
+    public exit(request: DataOfRealTimeRequest, jwt: string): Observable<KlineResponse> {
+       
+        let header = new Headers({'Content-Type': 'application/json'});  
+        header.append('Authorization','Bearer '+ jwt);
+        let options = new RequestOptions({ headers: header });
+     
+        return this.http.post(`${this.apiUrl}/user/Exit`, request, options)
+        .map(response => response.json());  
+    }
     
     public createUser(request: UserRegistrationRequest): Observable<KlineResponse> {
         return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/user/registration`, request)

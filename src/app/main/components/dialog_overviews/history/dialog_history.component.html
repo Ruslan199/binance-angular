@@ -1,4 +1,4 @@
-<div class="request" *ngIf="buy == false">
+<div id="request" *ngIf="buy == false">
     <div mat-dialog-content>
         <p>Выберите нужные входные данные </p>
     </div>
@@ -64,7 +64,7 @@
 
 
 
-<div class="display_none" *ngIf="buy == true && klines" (change)="setPair()">
+<div id="display_none" *ngIf="buy == true" (change)="setPair()">
     <div class="footer">
         <div mat-dialog-actions class="footer">
           <button mat-button (click)="NoClick()">Назад</button>

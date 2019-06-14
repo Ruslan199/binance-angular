@@ -30,10 +30,12 @@
 	<!-- Sidebar -->
 
 	<!-- Content -->
-
-	<div class="signal" *ngIf="responseSocket">
+  <div *ngIf="showSignal == true">
+	<div id="signal" *ngIf="responseSocket">
 		<h1>{{ responseSocket }}</h1>
+		<button (click)="closeWindow()">Закрыть</button>
 	</div>
+  </div>
 
 
 	<div class="content">
@@ -107,10 +109,16 @@
 						</a>
 					</div>
 				</div>
-				<div id="regi">
+				<div id="regi" *ngIf="enteredQuestions == false">
 					<button mat-raised-button (click)="openDialogRegistration()">Регистрация</button>
 					<button mat-raised-button (click)="openDialogSignIn()">Вход</button>
 				</div>
+
+				<div id="exit" *ngIf="enteredQuestions == true">
+						<button mat-raised-button (click)="Exit()">Выйти</button>
+						<h3 style="color: white;">{{ LoadUser() }}</h3>
+				</div>
+
 			</div>
 		</div>
 
@@ -149,7 +157,7 @@
 			<div class="table table-responsive">
 
    
-		 <div (change) = "LoadSocket($event.target.value)"> 
+		 <div (change) = "LoadSocketPair($event.target.value)"> 
 				  <select class="example" (change) = "setInterval($event.target.value)">
 					<option *ngFor="let interval of intervals" [value]="interval.interval">{{ interval.name }}</option>
 					</select>

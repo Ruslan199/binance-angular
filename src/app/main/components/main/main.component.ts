@@ -37,7 +37,11 @@ export class MainComponent implements OnInit, AfterViewInit {
     public jwt: string;
     public socketID: string;
     public log: string;
-    public close: boolean=  false;
+    public close: boolean = false;
+    public responseSocket: string;
+    public entered: boolean = false;
+
+    public audio = new Audio();
 
     public pairAlgoritm: Pairs;
     public intervalAlgoritm: KlineInterval;
@@ -46,6 +50,9 @@ export class MainComponent implements OnInit, AfterViewInit {
     public pairAlgoritmString: string;
     public value: number; 
     public login: string;
+    public showSignal: boolean;
+    public workOne: boolean = false;
+    public enteredQuestions: boolean;
 
     public selectedpair: string[] = [
         "GVTBTC","IOTXBTC","STRATBTC","XRPBTC","WAVESBTC","CMTBTC","BTCUSDT"
@@ -92,6 +99,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     { 
         this.loginService.currentMessage.subscribe(message=>this.jwt = message);
         this.loginService.currentMessagee.subscribe(message=>this.log = message);
+        this.loginService.currentEnter.subscribe(message=>this.enteredQuestions = message);
     }
     
     ngOnInit()
@@ -103,7 +111,8 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.filtersTwo.intervalFilter.value = this.intervalsAlgoritm[0].interval;
         this.intervalsName = this.intervalsAlgoritm[0].name;
 
-        this.LoadSocket(this.filters.pairFilter.value,this.filters.intervalFilter.value);
+        this.LoadSocketPair(this.filters.pairFilter.value,this.filters.intervalFilter.value);
+        this.LoadSocketMessage();
         this.visible = false;
         this.show = false;
     
@@ -154,9 +163,19 @@ export class MainComponent implements OnInit, AfterViewInit {
             this.visible = true;
         }
     }
-
-
-
+    closeWindow()
+    {
+        this.audio.pause();
+      //document.getElementById('signal').style.display = "none"
+      if(this.showSignal){
+        document.getElementById('signal').style.display = "block";
+        this.showSignal = false;
+        }
+      else{
+        document.getElementById('signal').style.display = "none";
+        //this.showSignal = true;
+      }
+    }
     public setInterval(interval: KlineInterval): void
     {
         this.filters.intervalFilter.value = interval;
@@ -165,6 +184,17 @@ export class MainComponent implements OnInit, AfterViewInit {
     public setPair(pair: string): void
     {
         this.filters.pairFilter.value = pair;
+    }
+
+    LoadUser(){
+        let user = this.log;
+        document.getElementById('exit').style.display = "block";
+        return user;
+    }
+    playAudio(){
+        this.audio.src = "../../../assets/audio/590cs.wav";
+        this.audio.load();
+        this.audio.play();
     }
 
     public setIntervalAlgoritm(interval: KlineInterval): void
@@ -181,12 +211,12 @@ export class MainComponent implements OnInit, AfterViewInit {
     public setIntervalName(interval: KlineInterval)
     {
       if(interval == KlineInterval.FiveMinutes){
-        this.value = 1;
+        this.value = 5;
         this.intervalsName = this.intervalsAlgoritm[0].name;
         return this.intervalsName;
       }
       if(interval == KlineInterval.FiveteenMinutes){
-        this.value = 2;
+        this.value = 15;
         this.intervalsName = this.intervalsAlgoritm[1].name;
         return this.intervalsName;
       }
@@ -255,8 +285,30 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.inputAlgoritm = parseFloat(inaccuracy);
     }
 
+    public LoadSocketMessage()
+    {
+        this.websocket.openDepthStreamData();
+        this.websocket.depthStreamMessage3
+        .subscribe(message => {
+            if(message == null){
+                console.log(message);
+             }
+             else{
+                if(this.close != true){
+                    this.socketID = message.data;
+                    this.close = true;
+                }
+                if(this.workOne != false){
+                this.showSignal = true;
+                this.responseSocket = message.data;
+                this.playAudio();
+                }
+                this.workOne = true;
+             }
+        });
+    }
 
-    public LoadSocket(pair: string, interval: string){
+    public LoadSocketPair(pair: string, interval: string){
         this.websocket.openDepthStream(this.filters.pairFilter.value, this.filters.intervalFilter.value);
        
         this.websocket.depthStreamMessage
@@ -273,22 +325,6 @@ export class MainComponent implements OnInit, AfterViewInit {
                 return;
              }
              this.twentyFour = JSON.parse(message.data);
-        });
-
-        this.websocket.openDepthStreamData();
-        this.websocket.depthStreamMessage3
-        .subscribe(message => {
-            if(message == null){
-               // console.log(message.target)
-                console.log(message);
-             }
-             else{
-                if(this.close != true){
-                    this.socketID = message.data;
-                    this.close = true;
-                }
-                console.log(message.data);
-             }
         });
     }
     public sendRequest(): void
@@ -361,6 +397,31 @@ export class MainComponent implements OnInit, AfterViewInit {
                 }
                 this.priceList = res;
             });
+    }
+    public Exit(){
+
+       const req = new DataOfRealTimeRequest();
+
+        req.pair = this.filtersTwo.pairFilter.value;
+        req.interval = this.intervalAlgoritm;
+        req.time = new Date();
+        req.inaccuracy = this.inputAlgoritm;
+        req.value = this.value;
+        req.login = this.log;
+        req.socketId = this.socketID;
+        var jwt = this.jwt;
+
+        console.log(req.socketId);
+
+        this.mainService
+        .exit(req,jwt)
+        .subscribe(res => {
+            if (!res.success) {
+                console.log(res.message);
+                return;
+            }
+            this.enteredQuestions = false;
+        });
     }
     public RealTime(){
         const req = new DataOfRealTimeRequest();

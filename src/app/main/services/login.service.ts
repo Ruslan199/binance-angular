@@ -10,6 +10,10 @@ export class LoginService
     private messageLogin = new BehaviorSubject<string>("default message login");
     currentMessagee  = this.messageLogin.asObservable();
 
+    
+    private messageEntered = new BehaviorSubject<boolean>(false);
+    currentEnter  = this.messageEntered.asObservable();
+
     constructor(){}
 
     changeMessage(message: string)
@@ -19,5 +23,9 @@ export class LoginService
     changeLog(message: string)
     {
         this.messageLogin.next(message);
+    }
+    Entered(value: boolean)
+    {
+        this.messageEntered.next(value);
     }
 }
