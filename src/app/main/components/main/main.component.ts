@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { MainService } from '../../services/main.service';
 import { KlineInterval } from 'src/app/common/enum/kline-interval.enum';
 import { Binance24HPricesListResponse } from 'src/app/common/models/response/binance-24hprices-list-response.model';
@@ -95,7 +95,8 @@ export class MainComponent implements OnInit, AfterViewInit {
     constructor(private mainService: MainService, 
                 private websocket: WebSocketService,
                 public dialog: MatDialog,
-                private loginService: LoginService)
+                private loginService: LoginService,
+                private cdr: ChangeDetectorRef)
     { 
         this.loginService.currentMessage.subscribe(message=>this.jwt = message);
         this.loginService.currentMessagee.subscribe(message=>this.log = message);
@@ -110,20 +111,20 @@ export class MainComponent implements OnInit, AfterViewInit {
 
         this.filtersTwo.intervalFilter.value = this.intervalsAlgoritm[0].interval;
         this.intervalsName = this.intervalsAlgoritm[0].name;
-
-        this.LoadSocketPair(this.filters.pairFilter.value,this.filters.intervalFilter.value);
-        this.LoadSocketMessage();
         this.visible = false;
         this.show = false;
-    
     }
     
     ngAfterViewInit()
     {
         this.setPair(this.filters.pairFilter.value);
         this.setInterval(this.filters.intervalFilter.value);
+        this.LoadSocketPair(this.filters.pairFilter.value,this.filters.intervalFilter.value);
+        this.LoadSocketMessage();
         this.setIntervalAlgoritm(this.filtersTwo.intervalFilter.value);
         this.setPairAlgoritm(this.filtersTwo.pairFilter.value);
+        this.dataTime();
+        this.cdr.detectChanges();
     }
     ngOnDestroy()
     {
@@ -163,17 +164,22 @@ export class MainComponent implements OnInit, AfterViewInit {
             this.visible = true;
         }
     }
+    opDialogTable(): void {
+        document.getElementById('display_none_table').style.display = "block";
+        document.getElementById('display_none_table').style.margin = "auto";
+        document.getElementById('display_none_table').style.padding = "auto";
+        document.getElementById('display_none_table').style.width = "1000px";
+        this.show = true;
+    }
     closeWindow()
     {
         this.audio.pause();
-      //document.getElementById('signal').style.display = "none"
       if(this.showSignal){
         document.getElementById('signal').style.display = "block";
         this.showSignal = false;
         }
       else{
         document.getElementById('signal').style.display = "none";
-        //this.showSignal = true;
       }
     }
     public setInterval(interval: KlineInterval): void
@@ -246,7 +252,8 @@ export class MainComponent implements OnInit, AfterViewInit {
         {
             this.show = true;
             document.getElementById('gg').innerText = this.selectedpair[0];
-        }  
+        }
+        /*  
         if(pair == 1)
         {
             this.show = true;
@@ -277,6 +284,7 @@ export class MainComponent implements OnInit, AfterViewInit {
             this.show = true;
             document.getElementById('gg').innerText = this.selectedpair[6];
         }
+        */
         
     }
 
@@ -302,6 +310,7 @@ export class MainComponent implements OnInit, AfterViewInit {
                 this.showSignal = true;
                 this.responseSocket = message.data;
                 this.playAudio();
+                console.log(this.responseSocket);
                 }
                 this.workOne = true;
              }
@@ -329,14 +338,10 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
     public sendRequest(): void
     {
-      let pair = this.pairAlgoritm;
-      if(pair == 0)
-      {
-        this.show = true;
-        this.selectedpair[0] = "Для монеты GVTBTC выбран интервал: " + this.intervalsName + "; Погрешность: " + this.inputAlgoritm;
-        document.getElementById('gg').innerText = this.selectedpair[0];
-        this.RealTime()
-      }
+     // let pair = this.pairAlgoritm;
+      this.show = true;
+      this.opDialogTable();
+      /*
       if(pair == 1)
       {
         this.show = true;
@@ -380,6 +385,7 @@ export class MainComponent implements OnInit, AfterViewInit {
         document.getElementById('gg').innerText = this.selectedpair[6];   
         this.RealTime();
       }
+      */
     }
 
     public load24HPrice() {
@@ -430,6 +436,7 @@ export class MainComponent implements OnInit, AfterViewInit {
         req.interval = this.intervalAlgoritm;
         req.time = new Date();
         req.inaccuracy = this.inputAlgoritm;
+        
         req.value = this.value;
         req.login = this.log;
         req.socketId = this.socketID;

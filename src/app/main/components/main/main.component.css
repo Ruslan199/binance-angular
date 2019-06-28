@@ -82,6 +82,18 @@ ul.hr li {
 #display_none{
     display: none;
 }
+#display_none_table{
+    display: none;
+}
+.table_size
+{
+    font-family: 'Noto Sans TC', sans-serif;
+    width: 1000px;
+    font-size: 14px;
+    border-spacing: 0;
+    text-align: center;
+    margin:  auto;
+}
 #regi  button{
     margin-right: 10px; 
 }

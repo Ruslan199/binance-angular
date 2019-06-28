@@ -82,31 +82,6 @@ export class DialogOverviewSignIn implements OnInit{
         let user = this.errorUser;
         return user;
     }
-    
-/*
-    public LoadSocketMessage()
-    {
-        this.websocket.openDepthStreamData();
-        this.websocket.depthStreamMessage3
-        .subscribe(message => {
-            if(message == null){
-                console.log(message);
-             }
-             else{
-                if(this.close != true){
-                    this.socketID = message.data;
-                    this.close = true;
-                }
-                if(this.workOne != false){
-                this.showSignal = true;
-                this.responseSocket = message.data;
-                this.playAudio();
-                }
-                this.workOne = true;
-             }
-        });
-    }
-    */
 
     public sendRequest() {
         

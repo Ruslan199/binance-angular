@@ -83,9 +83,7 @@ export class KlinesComponent implements OnInit {
 		this.endTime = event.formatted;
 		this.gg1 = event.jsdate;
 		console.log(this.endTime);
-	}
-	
-	
+	}	
 
      // Calling this function opens the selector if it is closed and 
     // closes the selector if it is open

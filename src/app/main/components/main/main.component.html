@@ -144,11 +144,37 @@
 								<button (click)="sendRequest()">Старт</button>				
 						</li>
 						<br>
-						<label id="gg" style="color:white; font-size: 20px; margin-top: 20px;"  *ngIf="show == true"></label>
 				</ul>
 			</div>
 		</div>
 
+		<div class="main-table" *ngIf="show == true">
+		<table id="display_none_table"  border="1">
+			<div class="table_size">
+
+				<thead>
+					<tr>
+						<th>Монета</th>
+						<th>Интервал</th>
+						<th>Погрешность</th>
+						<th>Удалить</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>
+							<button>
+								Delete
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</div>
+		</table>
+		</div>
 
 		<!-- Table -->
 		<div class="main-table">
