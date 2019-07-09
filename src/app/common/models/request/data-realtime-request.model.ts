@@ -9,4 +9,5 @@ export class DataOfRealTimeRequest {
     public value: number;
     public login: string;
     public socketId: string;
+    public userId: number;
 }

@@ -12,6 +12,7 @@ import { DataOfRealTimeRequest } from "src/app/common/models/request/data-realti
 import { UserRegistrationRequest } from "src/app/common/models/request/user-registration-request.model";
 import { AuthRequest } from "src/app/common/models/request/auth-request.model";
 import { AuthResponse } from "src/app/common/models/response/auth-response.model";
+import { DeleteTimerUser } from "src/app/common/models/request/delete-request.model";
 
 
 @Injectable()
@@ -46,6 +47,16 @@ export class MainService extends BaseHttpService {
         let options = new RequestOptions({ headers: header });
      
         return this.http.post(`${this.apiUrl}/real/RealTime`, request, options)
+        .map(response => response.json());  
+    }
+
+    public DeleteTimerUser(request: DeleteTimerUser, jwt: string): Observable<KlineResponse>
+    {
+        let header = new Headers({'Content-Type': 'application/json'});  
+        header.append('Authorization','Bearer '+ jwt);
+        let options = new RequestOptions({ headers: header });
+     
+        return this.http.post(`${this.apiUrl}/real/DeleteUserTimer`, request, options)
         .map(response => response.json());  
     }
 

@@ -82,7 +82,7 @@ ul.hr li {
 #display_none{
     display: none;
 }
-#display_none_table{
+#display__table{
     display: none;
 }
 .table_size
@@ -90,11 +90,9 @@ ul.hr li {
     font-family: 'Noto Sans TC', sans-serif;
     width: 1000px;
     font-size: 14px;
-    border-spacing: 0;
     text-align: center;
-    margin:  auto;
 }
-#regi  button{
+#regi button{
     margin-right: 10px; 
 }
 #exit{

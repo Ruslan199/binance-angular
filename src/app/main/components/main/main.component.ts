@@ -17,6 +17,8 @@ import { DialogOverviewComponent } from '../dialog_overviews/history/dialog_hist
 import { DialogOverviewRegistration } from '../dialog_overviews/registration/dialog_registration.component';
 import { DialogOverviewSignIn } from '../dialog_overviews/signIn/dialog_signIn.component';
 import { LoginService } from '../../services/login.service';
+import { DataForAlgoritm } from 'src/app/common/models/request/start-algoritm.model';
+import { DeleteTimerUser } from 'src/app/common/models/request/delete-request.model';
 
 @Component({
   	selector: 'app-main',
@@ -32,7 +34,8 @@ export class MainComponent implements OnInit, AfterViewInit {
     public klineData: WebsocketResponse;
     public twentyFour: TwentyFourResponse;
     public visible: boolean;
-    public show: boolean;
+    public visibleTable: boolean;
+    public show: boolean = false;
     public example: boolean;
     public jwt: string;
     public socketID: string;
@@ -40,8 +43,11 @@ export class MainComponent implements OnInit, AfterViewInit {
     public close: boolean = false;
     public responseSocket: string;
     public entered: boolean = false;
+    public deleteUserId: number;
 
     public audio = new Audio();
+    public i = 0;
+    public j = 0;
 
     public pairAlgoritm: Pairs;
     public intervalAlgoritm: KlineInterval;
@@ -53,6 +59,8 @@ export class MainComponent implements OnInit, AfterViewInit {
     public showSignal: boolean;
     public workOne: boolean = false;
     public enteredQuestions: boolean;
+    public userId: number;
+
 
     public selectedpair: string[] = [
         "GVTBTC","IOTXBTC","STRATBTC","XRPBTC","WAVESBTC","CMTBTC","BTCUSDT"
@@ -60,6 +68,8 @@ export class MainComponent implements OnInit, AfterViewInit {
 
 
     @Output() change = new EventEmitter();
+
+    public dataForClient: DataForAlgoritm[] = [];
 
 	pairs: GetPair[] = [
 		{ name: "GVTBTC",  pair: Pairs.GVTBTC},
@@ -70,6 +80,7 @@ export class MainComponent implements OnInit, AfterViewInit {
         { name: "CMTBTC", pair:  Pairs.CMTBTC },
         { name: "BTCUSDT", pair:  Pairs.BTCUSDT }
     ];
+    
 
     intervals: GetIntervals[] = [
           { name: "1 минута", interval: "1m" },
@@ -112,6 +123,7 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.filtersTwo.intervalFilter.value = this.intervalsAlgoritm[0].interval;
         this.intervalsName = this.intervalsAlgoritm[0].name;
         this.visible = false;
+        this.visibleTable = false;
         this.show = false;
     }
     
@@ -155,21 +167,24 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
     opDialog(): void {
 
-        if(this.visible){
+        if(this.visible != true){
             document.getElementById('display_none').style.display = "block";
-            this.visible = false;
+            this.visible = true;
         }
         else{
             document.getElementById('display_none').style.display = "none";
-            this.visible = true;
+            this.visible = false;
         }
     }
     opDialogTable(): void {
-        document.getElementById('display_none_table').style.display = "block";
-        document.getElementById('display_none_table').style.margin = "auto";
-        document.getElementById('display_none_table').style.padding = "auto";
-        document.getElementById('display_none_table').style.width = "1000px";
-        this.show = true;
+        if(this.visibleTable != true){
+            document.getElementById('display__table').style.display = "block";
+            this.visibleTable = false;
+        }
+        else{
+            document.getElementById('display__table').style.display = "none";
+            this.visibleTable = true;
+        }
     }
     closeWindow()
     {
@@ -207,85 +222,16 @@ export class MainComponent implements OnInit, AfterViewInit {
     {
         this.filtersTwo.intervalFilter.value = interval;
         this.intervalAlgoritm = interval;
-        this.setIntervalName(interval);
-        
-        console.log(interval);
-        console.log(this.value);
-        
+        this.intervalsName = this.intervalsAlgoritm.find(item=>item.interval == interval).name.toString();
+        this.value = this.intervalsAlgoritm.find(item=>item.interval == interval).value;
     }
 
-    public setIntervalName(interval: KlineInterval)
-    {
-      if(interval == KlineInterval.FiveMinutes){
-        this.value = 5;
-        this.intervalsName = this.intervalsAlgoritm[0].name;
-        return this.intervalsName;
-      }
-      if(interval == KlineInterval.FiveteenMinutes){
-        this.value = 15;
-        this.intervalsName = this.intervalsAlgoritm[1].name;
-        return this.intervalsName;
-      }
-      if(interval == KlineInterval.OneHour){
-        this.value = 60;
-        this.intervalsName = this.intervalsAlgoritm[2].name;
-        return this.intervalsName;
-      }
-      if(interval == KlineInterval.FourHour){
-        this.value = 240;
-        this.intervalsName = this.intervalsAlgoritm[3].name;
-        return this.intervalsName;
-      }
-      if(interval == KlineInterval.OneDay){
-        this.value = 1440;
-        this.intervalsName = this.intervalsAlgoritm[4].name;
-        return this.intervalsName;
-      }
-    }
 
     public setPairAlgoritm(pair: Pairs): void
     {
         this.filtersTwo.pairFilter.value = pair;
-        this.pairAlgoritm = pair;
-      
-        if(pair == 0)
-        {
-            this.show = true;
-            document.getElementById('gg').innerText = this.selectedpair[0];
-        }
-        /*  
-        if(pair == 1)
-        {
-            this.show = true;
-            document.getElementById('gg').innerText = this.selectedpair[1];
-        }
-        if(pair == 2)
-        {
-            this.show = true;
-            document.getElementById('gg').innerText = this.selectedpair[2];
-        }
-        if(pair == 3)
-        {
-            this.show = true;
-            document.getElementById('gg').innerText = this.selectedpair[3];
-        }
-        if(pair == 4)
-        {
-            this.show = true;
-            document.getElementById('gg').innerText = this.selectedpair[4];
-        }
-        if(pair == 5)
-        {
-            this.show = true;
-            document.getElementById('gg').innerText = this.selectedpair[5];
-        }
-        if(pair == 6)
-        {
-            this.show = true;
-            document.getElementById('gg').innerText = this.selectedpair[6];
-        }
-        */
-        
+        this.pairAlgoritm = pair;   
+        this.pairAlgoritmString = this.pairs.find(item=>item.pair == pair).name;
     }
 
     onKeyInaccuracy(event: KeyboardEvent) {
@@ -338,54 +284,47 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
     public sendRequest(): void
     {
-     // let pair = this.pairAlgoritm;
-      this.show = true;
-      this.opDialogTable();
-      /*
-      if(pair == 1)
-      {
-        this.show = true;
-        this.selectedpair[1] = "Для монеты IOTXBTC выбран интервал: " + this.intervalsName + "; Погрешность: " + this.inputAlgoritm;
-        document.getElementById('gg').innerText = this.selectedpair[1];   
-        this.RealTime();
+      this.opDialogTable(); 
 
-      }
-      if(pair == 2)
-      {
-        this.show = true;
-        this.selectedpair[2] = "Для монеты STRATBTC выбран интервал: " + this.intervalsName + "; Погрешность: " + this.inputAlgoritm;
-        document.getElementById('gg').innerText = this.selectedpair[2];
-        this.RealTime();   
-      }
-      if(pair == 3)
-      {
-        this.show = true;
-        this.selectedpair[3] = "Для монеты XRPBTC выбран интервал: " + this.intervalsName + "; Погрешность: " + this.inputAlgoritm;
-        document.getElementById('gg').innerText = this.selectedpair[3];   
-        this.RealTime();
-      }
-      if(pair == 4)
-      {
-        this.show = true;
-        this.selectedpair[4] = "Для монеты WAVESBTC выбран интервал: " + this.intervalsName + "; Погрешность: " + this.inputAlgoritm;
-        document.getElementById('gg').innerText = this.selectedpair[4];  
-        this.RealTime(); 
-      }
-      if(pair == 5)
-      {
-        this.show = true;
-        this.selectedpair[5] = "Для монеты CMTBTC выбран интервал: " + this.intervalsName + "; Погрешность: " + this.inputAlgoritm;
-        document.getElementById('gg').innerText = this.selectedpair[5];  
-        this.RealTime(); 
-      }
-      if(pair == 6)
-      {
-        this.show = true;
-        this.selectedpair[6] = "Для монеты BTCUSDT выбран интервал: " + this.intervalsName + "; Погрешность: " + this.inputAlgoritm;
-        document.getElementById('gg').innerText = this.selectedpair[6];   
-        this.RealTime();
-      }
-      */
+      this.dataForClient.push({
+          id: this.i++,
+          pair: this.pairAlgoritmString,
+          interval: this.intervalsName,
+          innarcy: this.inputAlgoritm.toString()
+      });
+
+
+      console.log(this.dataForClient); 
+      this.RealTime();
+    }
+
+    public DeleteTimer(i: number): void{
+
+        const index: number = this.dataForClient.find(x=>x.id == i).id;
+        this.deleteUserId = index;
+
+        if (index !== -1) {
+            var l = this.dataForClient.find(x=>x.id== index);
+            this.dataForClient.splice(this.dataForClient.findIndex(x=>x.id == i),1);
+            this.DeleteUserTimer(); 
+        }
+    }
+
+    public DeleteUserTimer(): void {
+        const req = new DeleteTimerUser();
+        req.userId = this.deleteUserId;
+        req.userName = this.log;
+
+        this.mainService
+        .DeleteTimerUser(req,this.jwt)
+        .subscribe(res => {
+            if (!res.success) {
+                console.log(res.message);
+                return;
+            }
+
+        });
+
     }
 
     public load24HPrice() {
@@ -440,8 +379,7 @@ export class MainComponent implements OnInit, AfterViewInit {
         req.value = this.value;
         req.login = this.log;
         req.socketId = this.socketID;
-
-        console.log(req.socketId);
+        req.userId = this.i - 1;
 
         var jwt = this.jwt;
     

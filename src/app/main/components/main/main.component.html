@@ -141,16 +141,19 @@
 								<label id="gg2" style="color: white;">Погрешность</label>
 						</li>
 						<li>
-								<button (click)="sendRequest()">Старт</button>				
+								<button mat-raised-button (click)="sendRequest()">Старт</button>				
 						</li>
+
 						<br>
 				</ul>
 			</div>
 		</div>
 
-		<div class="main-table" *ngIf="show == true">
-		<table id="display_none_table"  border="1">
-			<div class="table_size">
+		<div class="main-table">
+				<div class="table table-responsive">
+			<div id="display__table">
+		<table>
+			<div class="table_size"  style="margin-left: auto; margin-right: auto">
 
 				<thead>
 					<tr>
@@ -160,20 +163,21 @@
 						<th>Удалить</th>
 					</tr>
 				</thead>
+
 				<tbody>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
+					<tr *ngFor="let data of dataForClient">
+						<td>{{ data.pair }}</td>
+						<td>{{ data.interval }}</td>
+						<td>{{ data.innarcy }}</td>
 						<td>
-							<button>
-								Delete
-							</button>
+							<button mat-raised-button (click)="DeleteTimer(data.id)">Удалить</button>
 						</td>
 					</tr>
 				</tbody>
 			</div>
 		</table>
+		</div>
+		</div>
 		</div>
 
 		<!-- Table -->
