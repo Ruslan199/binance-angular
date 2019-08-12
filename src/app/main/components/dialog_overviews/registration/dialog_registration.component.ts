@@ -23,7 +23,7 @@ export class DialogOverviewRegistration implements OnInit{
     public buy: boolean 
 
     @Output() change = new EventEmitter();
-    @ViewChild('mydp') mydp: MyDatePicker;
+    @ViewChild('mydp',{static: false}) mydp: MyDatePicker;
 
     constructor(public dialogRef: MatDialogRef<DialogOverviewRegistration>, private mainService: MainService)
     {

@@ -42,7 +42,7 @@ export class DialogOverviewComponent implements OnInit{
     };
 
     @Output() change = new EventEmitter();
-    @ViewChild('mydp') mydp: MyDatePicker;
+    @ViewChild('mydp',{static: false}) mydp: MyDatePicker;
 
     constructor(public dialogRef: MatDialogRef<DialogOverviewComponent>, private mainService: MainService)
     {
@@ -77,7 +77,10 @@ export class DialogOverviewComponent implements OnInit{
 		{ name: "XRPBTC", pair:  Pairs.XRPBTC },
         { name: "WAVESBTC", pair:  Pairs.WAVESBTC },
 		{ name: "CMTBTC", pair:  Pairs.CMTBTC },
-		{ name: "BTCUSDT", pair:  Pairs.BTCUSDT }
+		{ name: "BTCUSDT", pair:  Pairs.BTCUSDT },
+		{ name: "EOSBTC", pair:  Pairs.EOSBTC },
+		{ name: "TRXBTC", pair:  Pairs.TRXBTC },
+		{ name: "ADABTC", pair:  Pairs.ADABTC }
     ];
 
     public setInterval(interval: KlineInterval): void

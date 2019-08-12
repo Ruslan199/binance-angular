@@ -57,8 +57,8 @@ export class WebSocketService
 
     public openDepthStreamData(): void{
 
-       this.depthStreamData = new WebSocket('ws://188.225.24.69:5000/notifications');
-       //this.depthStreamData = new WebSocket('ws://localhost:5001/notifications');
+       //this.depthStreamData = new WebSocket('ws://188.225.24.69:5000/notifications');
+       this.depthStreamData = new WebSocket('ws://localhost:5001/notifications');
       // this.depthStreamData.close();
 
        // this.depthStreamData = new WebSocket(`ws://localhost:5001/notifications`);

@@ -54,7 +54,10 @@ export class KlinesComponent implements OnInit {
 		{ name: "XRPBTC", pair:  Pairs.XRPBTC },
         { name: "WAVESBTC", pair:  Pairs.WAVESBTC },
 		{ name: "CMTBTC", pair:  Pairs.CMTBTC },
-		{ name: "BTCUSDT", pair:  Pairs.BTCUSDT }
+		{ name: "BTCUSDT", pair:  Pairs.BTCUSDT },
+		{ name: "EOSBTC", pair:  Pairs.EOSBTC },
+		{ name: "TRXBTC", pair:  Pairs.TRXBTC },
+		{ name: "ADABTC", pair:  Pairs.ADABTC }
     ];
 
     intervals: GetIntervalsKline[] = [
@@ -67,7 +70,7 @@ export class KlinesComponent implements OnInit {
 	
 
 
-    @ViewChild('mydp') mydp: MyDatePicker;
+    @ViewChild('mydp',{static: false}) mydp: MyDatePicker;
 
     onDateChanged(event: IMyDateModel) {
 		this.startTime = event.formatted;

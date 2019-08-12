@@ -1,5 +1,4 @@
-export class AuthRequest {
+export class ExitUserRequest {
     public login: string;
-    public password: string;
     public socketId: string;
 }

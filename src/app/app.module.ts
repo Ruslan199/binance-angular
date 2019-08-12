@@ -11,7 +11,7 @@ import { KlinesComponent } from './klines/components/klines.component';
 import { FormsModule } from '@angular/forms';
 import { KlineService } from './klines/services/klines.service';
 import { WebSocketService } from './main/services/websocket.service';
-import { MyDatePickerModule } from 'mydatepicker';
+//import { MyDatePickerModule } from 'mydatepicker';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule, MatButtonModule, MatInputModule, MatRippleModule } from '@angular/material';
@@ -20,6 +20,9 @@ import { MainComponent } from './main/components/main/main.component';
 import { DialogOverviewRegistration } from './main/components/dialog_overviews/registration/dialog_registration.component';
 import { DialogOverviewSignIn } from './main/components/dialog_overviews/signIn/dialog_signIn.component';
 import { LoginService } from './main/services/login.service';
+import { HttpClient } from 'selenium-webdriver/http';
+import { from } from 'rxjs';
+import { MyDatePickerModule } from 'mydatepicker';
 
 
 

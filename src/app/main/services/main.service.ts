@@ -13,6 +13,7 @@ import { UserRegistrationRequest } from "src/app/common/models/request/user-regi
 import { AuthRequest } from "src/app/common/models/request/auth-request.model";
 import { AuthResponse } from "src/app/common/models/response/auth-response.model";
 import { DeleteTimerUser } from "src/app/common/models/request/delete-request.model";
+import { ExitUserRequest } from 'src/app/common/models/request/exit-user-request.model';
 
 
 @Injectable()
@@ -60,19 +61,20 @@ export class MainService extends BaseHttpService {
         .map(response => response.json());  
     }
 
-    public exit(request: DataOfRealTimeRequest, jwt: string): Observable<KlineResponse> {
+    public exit(request: ExitUserRequest, jwt: string): Observable<Response> {
        
         let header = new Headers({'Content-Type': 'application/json'});  
         header.append('Authorization','Bearer '+ jwt);
         let options = new RequestOptions({ headers: header });
      
-        return this.http.post(`${this.apiUrl}/user/Exit`, request, options)
+        return this.http.post(`${this.apiUrl}/user/exit`, request, options)
         .map(response => response.json());  
     }
     
     public createUser(request: UserRegistrationRequest): Observable<KlineResponse> {
         return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/user/registration`, request)
-        .map(response => response.json());  
+        .map(response => response.json());
+
     }
 
     public Authorization(request: AuthRequest): Observable<AuthResponse> {
@@ -83,6 +85,12 @@ export class MainService extends BaseHttpService {
     public StartAlgoritm(request: DataOfAlgoritmRequest): Observable<KlineResponse>{
 
         return this.polledBitcoin$ = this.http.post(`${this.apiUrl}/main/StartAlgoritm`, request)
+        .map(response => response.json());  
+    }
+    
+    public checkUser(request: ExitUserRequest): Observable<KlineResponse> {
+
+        return this.http.post(`${this.apiUrl}/user/CheckUser`, request)
         .map(response => response.json());  
     }
  }

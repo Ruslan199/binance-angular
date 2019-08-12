@@ -19,6 +19,8 @@ import { DialogOverviewSignIn } from '../dialog_overviews/signIn/dialog_signIn.c
 import { LoginService } from '../../services/login.service';
 import { DataForAlgoritm } from 'src/app/common/models/request/start-algoritm.model';
 import { DeleteTimerUser } from 'src/app/common/models/request/delete-request.model';
+import { ExitUserRequest } from 'src/app/common/models/request/exit-user-request.model';
+import { CheckCurrentUserRequest } from 'src/app/common/models/request/check-currentUser-request.model';
 
 @Component({
   	selector: 'app-main',
@@ -44,6 +46,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     public responseSocket: string;
     public entered: boolean = false;
     public deleteUserId: number;
+    public local: boolean = false;
 
     public audio = new Audio();
     public i = 0;
@@ -60,6 +63,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     public workOne: boolean = false;
     public enteredQuestions: boolean;
     public userId: number;
+    public enterFirstTime: string;
 
 
     public selectedpair: string[] = [
@@ -69,7 +73,9 @@ export class MainComponent implements OnInit, AfterViewInit {
 
     @Output() change = new EventEmitter();
 
-    public dataForClient: DataForAlgoritm[] = [];
+   // public dataForClient: DataForAlgoritm[] = [];
+    public localeForClient: DataForAlgoritm[] = [];
+    
 
 	pairs: GetPair[] = [
 		{ name: "GVTBTC",  pair: Pairs.GVTBTC},
@@ -78,7 +84,10 @@ export class MainComponent implements OnInit, AfterViewInit {
 		{ name: "XRPBTC", pair:  Pairs.XRPBTC },
         { name: "WAVESBTC", pair:  Pairs.WAVESBTC },
         { name: "CMTBTC", pair:  Pairs.CMTBTC },
-        { name: "BTCUSDT", pair:  Pairs.BTCUSDT }
+        { name: "BTCUSDT", pair:  Pairs.BTCUSDT },
+		{ name: "EOSBTC", pair:  Pairs.EOSBTC },
+		{ name: "TRXBTC", pair:  Pairs.TRXBTC },
+		{ name: "ADABTC", pair:  Pairs.ADABTC }
     ];
     
 
@@ -116,15 +125,27 @@ export class MainComponent implements OnInit, AfterViewInit {
     
     ngOnInit()
     {
+        this.CheckUser();
         this.filters.intervalFilter.value = this.intervals[0].interval;
         this.filters.pairFilter.value = this.pairs[0].name;
         this.filtersTwo.pairFilter.value = this.pairs[0].pair;
 
+        this.localeForClient = JSON.parse(window.localStorage.getItem("realTime"));
         this.filtersTwo.intervalFilter.value = this.intervalsAlgoritm[0].interval;
         this.intervalsName = this.intervalsAlgoritm[0].name;
-        this.visible = false;
-        this.visibleTable = false;
-        this.show = false;
+        
+        if(window.localStorage.getItem("key") == null){
+            this.visible = false;
+            this.visibleTable = false;
+            this.show = false;
+            document.getElementById('display__table').style.display = "none";
+        }
+        else{
+
+            this.visible = true;
+            this.enteredQuestions = true;
+            document.getElementById('display__table').style.display = "block";
+        }
     }
     
     ngAfterViewInit()
@@ -208,7 +229,8 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
 
     LoadUser(){
-        let user = this.log;
+        let user = window.localStorage.getItem("UserName");
+        
         document.getElementById('exit').style.display = "block";
         return user;
     }
@@ -245,11 +267,15 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.websocket.depthStreamMessage3
         .subscribe(message => {
             if(message == null){
-                console.log(message);
              }
              else{
+                this.socketID = message.data;
+                if(window.localStorage.getItem("key") == null)
+                {
+                    window.localStorage.setItem("socketId",message.data);
+                }
+            
                 if(this.close != true){
-                    this.socketID = message.data;
                     this.close = true;
                 }
                 if(this.workOne != false){
@@ -262,7 +288,7 @@ export class MainComponent implements OnInit, AfterViewInit {
              }
         });
     }
-
+    
     public LoadSocketPair(pair: string, interval: string){
         this.websocket.openDepthStream(this.filters.pairFilter.value, this.filters.intervalFilter.value);
        
@@ -284,39 +310,57 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
     public sendRequest(): void
     {
-      this.opDialogTable(); 
-
-      this.dataForClient.push({
+      //this.opDialogTable(); 
+      document.getElementById('display_none').style.display = "block";
+      console.log(this.localeForClient);
+      this.localeForClient.push({
           id: this.i++,
           pair: this.pairAlgoritmString,
           interval: this.intervalsName,
           innarcy: this.inputAlgoritm.toString()
       });
+      //console.log(this.dataForClient);
 
+      window.localStorage.setItem("realTime", JSON.stringify(this.localeForClient));
 
-      console.log(this.dataForClient); 
+//      console.log(JSON.parse(window.localStorage.getItem("realTime")));
+
       this.RealTime();
     }
 
     public DeleteTimer(i: number): void{
 
-        const index: number = this.dataForClient.find(x=>x.id == i).id;
-        this.deleteUserId = index;
+        console.log(i);
+        if(window.localStorage.getItem("key") == null){
+            const index: number = this.localeForClient.find(x=>x.id == i).id;
+            this.deleteUserId = index;
 
-        if (index !== -1) {
-            var l = this.dataForClient.find(x=>x.id== index);
-            this.dataForClient.splice(this.dataForClient.findIndex(x=>x.id == i),1);
-            this.DeleteUserTimer(); 
+            if (index !== -1) {
+                var l = this.localeForClient.find(x=>x.id== index);
+                this.localeForClient.splice(this.localeForClient.findIndex(x=>x.id == i),1);
+                this.DeleteUserTimer(); 
+            }
+        }
+        else{
+            const index: number = this.localeForClient.find(x=>x.id == i).id;
+            this.deleteUserId = index;
+
+            if (index !== -1) {
+                var l = this.localeForClient.find(x=>x.id== index);
+                this.localeForClient.splice(this.localeForClient.findIndex(x=>x.id == i),1);
+                this.DeleteUserTimer(); 
+            }
         }
     }
 
     public DeleteUserTimer(): void {
         const req = new DeleteTimerUser();
         req.userId = this.deleteUserId;
-        req.userName = this.log;
+        req.userName = window.localStorage.getItem("UserName");
+        var jwt = window.localStorage.getItem("key");
 
         this.mainService
-        .DeleteTimerUser(req,this.jwt)
+        .DeleteTimerUser(req,jwt)
         .subscribe(res => {
             if (!res.success) {
                 console.log(res.message);
@@ -345,27 +389,43 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
     public Exit(){
 
-       const req = new DataOfRealTimeRequest();
+        const req = new ExitUserRequest();
+        req.login = window.localStorage.getItem("UserName");
+        req.socketId = window.localStorage.getItem("socketId");
 
-        req.pair = this.filtersTwo.pairFilter.value;
-        req.interval = this.intervalAlgoritm;
-        req.time = new Date();
-        req.inaccuracy = this.inputAlgoritm;
-        req.value = this.value;
-        req.login = this.log;
-        req.socketId = this.socketID;
-        var jwt = this.jwt;
-
-        console.log(req.socketId);
+        var jwt = window.localStorage.getItem("key");
 
         this.mainService
         .exit(req,jwt)
         .subscribe(res => {
-            if (!res.success) {
-                console.log(res.message);
-                return;
+            console.log(res);
+            if (res.status == 401) {
+                console.log(res);
+                this.enteredQuestions = false;
+                window.localStorage.removeItem("key");
             }
-            this.enteredQuestions = false;
+            else{
+                this.enteredQuestions = false;
+                window.localStorage.removeItem("key");
+            }
+        });
+    }
+    public CheckUser()
+    {
+        const req = new CheckCurrentUserRequest();
+        req.socketId = window.localStorage.getItem("socketId");
+
+        this.mainService
+        .checkUser(req)
+        .subscribe(res => {
+            if (!res.success) {
+                this.enteredQuestions = false;
+                window.localStorage.removeItem("key");
+                window.localStorage.removeItem("realTime")
+                window.localStorage.removeItem("UserName");
+                this.localeForClient = null;
+                this.visibleTable = false;
+            }
         });
     }
     public RealTime(){
@@ -377,11 +437,13 @@ export class MainComponent implements OnInit, AfterViewInit {
         req.inaccuracy = this.inputAlgoritm;
         
         req.value = this.value;
-        req.login = this.log;
-        req.socketId = this.socketID;
+        req.login = window.localStorage.getItem("UserName");
+        req.socketId = window.localStorage.getItem("socketId");
         req.userId = this.i - 1;
 
-        var jwt = this.jwt;
+       // console.log(req.socketId);
+
+        var jwt = window.localStorage.getItem("key");
     
         this.mainService
         .getRealTime(req,jwt)
